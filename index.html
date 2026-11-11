@@ -1,0 +1,1248 @@
+<title>Kế hoạch Designathon 24h</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: same language as the event's own board. Dark page, sticky yellow countdown card on the left,
+   timeline on the right (vertical track, one coloured ring per block, expandable cards).
+   Ring colour = the four elements: Earth M1, Fire M2, Water M3, Air M4. A deliberate single dark look. */
+:root{
+  color-scheme:dark;
+  --bg:#150E21; --surface:#221833; --surface2:#2B1F40; --fg:#F5EFFA; --muted:#AA9CC2; --line:#3B2E52;
+  --purple:#7B5CFF; --purple-t:#32265E; --purple-fg:#BDAEFF;
+  --orange:#FF8F3F; --yellow:#FFD166; --ink:#2A1B00; --brown:#3A2C22; --red:#FF4B3A;
+  --earth:#6FD598; --fire:#FF7A63; --water:#7AA5FF; --air:#B3A0FF; --neutral:#C9BEDC;
+  --earth-t:#173026; --fire-t:#3A1D1E; --water-t:#17264A; --air-t:#2A2152; --neutral-t:#2A2038;
+  --f-display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px;position:relative}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(55% 38% at 12% 34%,rgba(176,112,32,.26),transparent 70%),radial-gradient(48% 36% at 96% 70%,rgba(176,112,32,.2),transparent 70%)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1160px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance}
+h2{font-size:clamp(22px,3.2vw,28px);font-weight:800}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+a{color:var(--purple-fg)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;align-items:center;gap:14px;padding:14px 0;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:800;font-size:30px;letter-spacing:-.02em;color:var(--red);line-height:1;transform:rotate(-3deg);text-shadow:2px 2px 0 #7A1810}
+.brand small{display:block;font-size:11px;letter-spacing:.14em;color:var(--muted);text-shadow:none;font-weight:600;text-transform:uppercase;transform:rotate(3deg);margin-top:2px}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;background:var(--surface);border-radius:999px;padding:6px;max-width:100%}
+nav.tabs button{flex:0 0 auto;border:0;background:transparent;border-radius:999px;padding:10px 18px;font-weight:600;font-size:14px;color:var(--fg)}
+nav.tabs button[aria-selected="true"]{background:#FFC93C;color:var(--ink)}
+
+.layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:36px;align-items:start;padding-top:26px}
+.layout.full{grid-template-columns:minmax(0,1fr)}
+.layout.full aside{display:none}
+aside{position:sticky;top:96px;display:grid;gap:18px}
+.hang{position:relative;padding-top:60px}
+.hang::before,.hang::after{content:"";position:absolute;top:0;width:2px;height:62px;background:rgba(255,255,255,.35)}
+.hang::before{left:17%}.hang::after{right:17%}
+.clockcard{background:linear-gradient(160deg,#FFE08A,#FFC94D);color:var(--ink);border-radius:26px;padding:22px 20px 20px;text-align:center;display:grid;gap:10px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.pills span{background:#FFF6DA;border-radius:999px;padding:5px 12px;font-weight:600;font-size:13px}
+.clockcard .lbl{font-weight:600;font-size:15px}
+.digits{display:flex;justify-content:center;gap:4px;align-items:flex-start;font-family:var(--f-display);font-weight:800;font-variant-numeric:tabular-nums}
+.digits div{display:grid;gap:2px;justify-items:center}
+.digits b{font-size:clamp(40px,6vw,54px);line-height:1;letter-spacing:-.02em;min-width:2ch}
+.digits i{font-style:normal;font-family:var(--f-body);font-size:10px;letter-spacing:.12em;font-weight:600;opacity:.8}
+.digits .c{font-size:44px;line-height:1;opacity:.55;margin-top:0}
+.now{font-size:13px;background:rgba(42,27,0,.1);border-radius:12px;padding:8px 10px;text-align:left}
+.now b{display:block;font-weight:600}
+.legend{background:var(--surface);border-radius:20px;padding:16px 18px;display:grid;gap:10px}
+.legend h3{font-size:14px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.legend div{display:flex;gap:10px;align-items:baseline;font-size:13px}
+.legend i{flex:0 0 12px;width:12px;height:12px;border-radius:50%;border:3px solid;transform:translateY(1px)}
+.legend span{color:var(--muted);margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+section.tab{display:grid;gap:22px;align-content:start}
+.ctl{display:grid;gap:12px}
+.daytoggle{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-radius:22px;padding:6px;gap:6px}
+.daytoggle button{border:0;background:transparent;border-radius:17px;padding:12px 8px;text-align:center;font-weight:600;line-height:1.25}
+.daytoggle button small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.daytoggle button[aria-pressed="true"]{background:var(--purple);color:#fff}
+.daytoggle button[aria-pressed="true"] small{color:#E3DBFF}
+.filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filters .lbl{font-size:12px;color:var(--muted);margin-right:4px;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip.ghost{margin-left:auto;background:transparent}
+.note{background:var(--surface);border-radius:16px;padding:14px 18px;color:var(--muted);font-size:14px}
+
+.tl{position:relative;display:grid;gap:18px;padding-left:46px}
+.tl::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:7px;border-radius:4px;background:#3B2C3A}
+.blk{position:relative}
+.dot{position:absolute;left:-46px;top:22px;width:30px;height:30px;border-radius:50%;border:5px solid var(--orange);background:var(--bg)}
+.cardb{background:var(--surface);border-radius:22px;padding:20px 22px;display:grid;gap:8px}
+.blk.live .cardb{box-shadow:0 0 0 3px var(--yellow)}
+.t1{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.rng{font-family:var(--f-display);font-weight:800;font-size:clamp(24px,4vw,32px);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.dur{font-size:13px;color:var(--muted);font-weight:500}
+.tag{background:var(--yellow);color:var(--ink);border-radius:999px;font-size:11px;font-weight:700;padding:2px 10px}
+.ttl{font-size:20px;font-weight:700}
+.ttl .m{margin-right:6px}
+.elp{justify-self:start;display:inline-flex;gap:6px;align-items:center;border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600}
+.desc{color:var(--muted);max-width:74ch}
+.more{margin-top:8px;border:0;width:100%;background:var(--purple-t);color:var(--purple-fg);border-radius:999px;padding:14px;font-weight:600;display:flex;gap:8px;justify-content:center;align-items:center}
+.more::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-135deg) translateY(2px);transition:transform .15s}
+.more[aria-expanded="false"]::after{transform:rotate(45deg) translateY(-2px)}
+.body{border-top:2px dashed var(--line);margin-top:10px;padding-top:16px;display:grid;gap:12px}
+.body[hidden]{display:none}
+.sub{font-weight:600;font-size:14px;color:var(--muted)}
+.todo{display:grid;gap:10px}
+.cell label{display:grid;grid-template-columns:24px minmax(130px,176px) minmax(0,1fr);gap:6px 14px;align-items:start;cursor:pointer}
+@media (max-width:640px){.cell label{grid-template-columns:24px minmax(0,1fr)}.cell .rl{grid-column:2}.cell .tx{grid-column:2}}
+.cell input,.ck input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:24px;height:24px;border:2px solid var(--orange);border-radius:8px;background:transparent;margin:1px 0 0;display:grid;place-items:center;cursor:pointer}
+.cell input:checked,.ck input:checked{background:var(--orange)}
+.cell input:checked::after,.ck input:checked::after{content:"";width:6px;height:11px;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg) translate(-1px,-1px)}
+.cell .tx{font-size:15px;min-width:0;overflow-wrap:anywhere}
+.cell .rl{font-size:12px;font-weight:600;background:var(--surface2);color:var(--purple-fg);border-radius:8px;padding:3px 10px;justify-self:start;line-height:1.4}
+.flash .cardb{box-shadow:0 0 0 3px var(--purple)}
+.layout.wide{grid-template-columns:minmax(0,1fr)}
+.layout.wide aside{display:none}
+/* gantt */
+.gwrap{background:var(--surface);border-radius:22px;padding:16px 0 12px;display:grid;gap:12px;min-width:0}
+.gtop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 18px;flex-wrap:wrap}
+.gtop h2{font-size:20px}
+.gbtns{display:flex;gap:6px}
+.gbtns button{border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600}
+.gnote{padding:0 18px;font-size:12px;color:var(--muted)}
+.gmini{position:relative;margin:0 18px;display:grid;gap:4px;padding-bottom:22px}
+.gmrow,.gmlane{position:relative;height:28px}
+.gmlane{height:20px}
+.gmseg{position:absolute;top:0;bottom:0;border-radius:7px;color:var(--ink);font-size:11px;font-weight:600;padding:0 7px;display:flex;align-items:center;overflow:hidden;white-space:nowrap}
+.gmseg.sl{background:color-mix(in srgb,var(--air) 22%,var(--surface2));background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.1) 0 6px,transparent 6px 12px);color:var(--air)}
+.gmticks{position:relative;height:14px}
+.gmticks span{position:absolute;top:0;transform:translateX(-50%);font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.gmdl{position:absolute;top:0;bottom:22px;border-left:2px dashed var(--yellow);opacity:.8}
+.gmnow{position:absolute;top:-4px;bottom:16px;width:3px;border-radius:2px;background:var(--yellow);z-index:3;box-shadow:0 0 0 1px rgba(0,0,0,.45)}
+.gscroll{overflow-x:auto;padding:4px 18px 12px}
+.gmat{display:grid;gap:6px;width:max-content;grid-template-rows:auto repeat(7,minmax(62px,auto))}
+.gcorner{grid-row:1;grid-column:1;position:sticky;left:0;z-index:5;background:var(--surface);align-self:end;font-size:12px;color:var(--muted);font-weight:600;padding:0 0 8px}
+.gph{position:relative;background:var(--surface2);border-radius:14px;padding:10px 12px;display:grid;gap:3px;align-content:start}
+.gph b{font-family:var(--f-display);font-size:16px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.gph strong{font-size:13px;line-height:1.25;font-weight:600}
+.gph small{font-size:11px;line-height:1.35;color:var(--muted)}
+.gph.pnow{outline:2px solid var(--yellow)}
+.gpnow{position:absolute;top:-9px;right:10px;background:var(--yellow);color:var(--ink);font-size:10px;font-weight:700;border-radius:999px;padding:1px 8px}
+.glab{position:sticky;left:0;z-index:4;background:var(--surface);border:0;border-right:1px solid var(--line);color:var(--fg);text-align:left;font-size:13px;font-weight:600;padding:0 10px 0 0;display:flex;gap:8px;align-items:center;cursor:pointer;line-height:1.25}
+.glab b{flex:0 0 26px;height:26px;border-radius:8px;background:var(--purple-t);color:var(--purple-fg);display:grid;place-items:center;font-size:12px}
+.gc{border:0;border-radius:12px;padding:9px 11px;font-size:12.5px;line-height:1.35;text-align:left;color:var(--fg);background:color-mix(in srgb,var(--c) 24%,var(--surface2));cursor:pointer;font-family:var(--f-body)}
+.gc:hover{background:color-mix(in srgb,var(--c) 40%,var(--surface2))}
+.gc.sl{background-color:color-mix(in srgb,var(--air) 16%,var(--surface2));background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 6px,transparent 6px 12px);color:var(--air);font-weight:600}
+.gc.gteam{display:grid;align-content:center;font-size:13.5px;line-height:1.6;padding:16px;border:2px dashed color-mix(in srgb,var(--c) 70%,transparent);background:color-mix(in srgb,var(--c) 12%,var(--surface2))}
+.gc.dim,.glab.dim{opacity:.3}
+.gleg{display:flex;flex-wrap:wrap;gap:6px 16px;padding:0 18px;font-size:12px;color:var(--muted)}
+.gleg span{display:inline-flex;gap:6px;align-items:center}
+.gleg i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.gleg i.sl{background:color-mix(in srgb,var(--air) 40%,var(--surface2));background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.3) 0 3px,transparent 3px 6px)}
+.cell.done .tx{opacity:.45;text-decoration:line-through}
+.cell.sleep .tx{color:var(--air)}
+.out{background:var(--brown);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.out .st{flex:0 0 22px;width:22px;height:22px;border:2px solid var(--yellow);border-radius:50%;display:grid;place-items:center;color:var(--yellow);font-size:11px;margin-top:2px}
+.out b{display:block;font-size:13px;font-weight:600;color:#E9DCCB}
+.out span{font-size:15px}
+
+.gln{display:grid;gap:1px;min-width:0}
+.gln strong{font-weight:600}
+.gln small{font-weight:500;font-size:11px;color:var(--muted)}
+.sbar{position:relative;height:28px;border-radius:9px;background:var(--surface2);overflow:hidden}
+.sbar span{position:absolute;top:3px;bottom:3px;border-radius:7px;display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink);background:var(--c)}
+.steps{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.steps li{display:grid;grid-template-columns:26px 124px minmax(0,1fr);gap:4px 12px;align-items:start;font-size:14.5px}
+.stn{width:24px;height:24px;border-radius:50%;background:var(--c);color:var(--ink);font-weight:700;font-size:12px;display:grid;place-items:center}
+.stt{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600;font-size:13px;padding-top:2px}
+@media (max-width:640px){.steps li{grid-template-columns:26px minmax(0,1fr)}.stt,.stx{grid-column:2}}
+/* other tabs */
+.sec-h{display:grid;gap:6px}
+.sec-h p{color:var(--muted);max-width:70ch;font-size:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px}
+.card{background:var(--surface);border-radius:20px;padding:18px 20px;display:grid;gap:8px;align-content:start;min-width:0}
+.card h3{font-size:16px}
+.card .sub{font-weight:400}
+.card ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:2px 12px;background:var(--neutral-t);color:var(--neutral);justify-self:start}
+.pill.earth{background:var(--earth-t);color:var(--earth)}.pill.fire{background:var(--fire-t);color:var(--fire)}
+.pill.water{background:var(--water-t);color:var(--water)}.pill.air{background:var(--air-t);color:var(--air)}
+.tbl{overflow-x:auto;border-radius:20px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface2)}
+tr:last-child td{border-bottom:0}
+.ck{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.ck li label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:14px}
+.ck li.done span{opacity:.45;text-decoration:line-through}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px}
+.warn{background:var(--brown);border-radius:16px;padding:14px 18px;font-size:14px}
+.warn b{color:var(--yellow)}
+.own{width:100%;min-width:90px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:22px}
+  aside{position:static}
+  .hang{max-width:420px;width:100%;margin:0 auto}
+  .tl{padding-left:38px}.dot{left:-38px;width:26px;height:26px;border-width:4px}
+  .tl::before{left:9px;width:6px}
+  .cardb{padding:16px 16px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+.cell.one label{grid-template-columns:24px minmax(0,1fr)}
+.lang{margin-left:auto;display:flex;background:var(--surface);border-radius:999px;padding:4px;gap:2px}
+.lang button{border:0;background:transparent;border-radius:999px;padding:8px 14px;font-weight:700;font-size:13px;color:var(--fg)}
+.lang button[aria-pressed="true"]{background:#FFC93C;color:var(--ink)}
+.flink{font-size:13px;font-weight:600;color:var(--yellow);margin-left:10px;letter-spacing:0;text-decoration:underline}
+.grp{font-size:15px;color:var(--muted);font-weight:600;letter-spacing:.04em;margin-top:4px}
+.fl{list-style:none;padding:0!important;display:grid;gap:10px!important}
+.fl li{display:grid;gap:2px}
+.fl span{color:var(--muted);font-size:13.5px}
+.own2{width:100%;min-width:90px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit}
+.shiftsel{width:100%;min-width:130px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit}
+#rwarn ul{margin:6px 0 0}
+</style>
+
+<div class="wrap">
+<div class="bar">
+  <div class="brand">KaBoom<small>Designathon 2026</small></div>
+  <nav class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-t="timeline" data-i="tabTimeline">Timeline 24h</button>
+    <button role="tab" data-t="chuan-bi" data-i="tabPrep">Chuẩn bị trước thi</button>
+    <button role="tab" data-t="vai-ca" data-i="tabRoles">Vai trò & ca ngủ</button>
+    <button role="tab" data-t="nop-bai" data-i="tabSubmit">Nộp bài & chấm điểm</button>
+  </nav>
+  <div class="lang" role="group" aria-label="Language"><button data-lang="vi" aria-pressed="false">VI</button><button data-lang="en" aria-pressed="false">EN</button></div>
+</div>
+
+<div class="layout" id="layout">
+  <aside>
+    <div class="hang">
+      <div class="clockcard" aria-live="off">
+        <div class="pills"><span>14–15.11.2026</span><span>The Sentry Q</span></div>
+        <div class="lbl" id="cLbl"></div>
+        <div class="digits" id="cDigits"></div>
+        <div class="now" id="cNow" hidden></div>
+      </div>
+    </div>
+    <div class="legend" id="legend"></div>
+  </aside>
+  <main>
+    <section class="tab" id="tab-timeline"></section>
+    <section class="tab" id="tab-chuan-bi" hidden></section>
+    <section class="tab" id="tab-vai-ca" hidden></section>
+    <section class="tab" id="tab-nop-bai" hidden></section>
+  </main>
+</div>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let store={};
+try{store=JSON.parse(localStorage.getItem("dsnt26")||"{}")}catch(e){store={}}
+const save=()=>{try{localStorage.setItem("dsnt26",JSON.stringify(store))}catch(e){}};
+const toMin=t=>{const[a,b]=t.split(":").map(Number);return a*60+b};
+const p2=n=>String(n).padStart(2,"0");
+
+/* ---------- language ---------- */
+let lang=store.lang||((navigator.language||"").toLowerCase().startsWith("vi")?"vi":"en");
+const U={
+vi:{
+ pageTitle:"Kế hoạch Designathon 24h",
+ tabTimeline:"Timeline 24h",tabPrep:"Chuẩn bị trước thi",tabRoles:"Vai trò & ca ngủ",tabSubmit:"Nộp bài & chấm điểm",tabsAria:"Các phần",
+ legTitle:"Hạn quan trọng",
+ leg:[["M1 nộp tài liệu","12:00","earth"],["M2 nộp Figma + Vibe Coding","17:00","fire"],["M3 test với mentor","17:00–19:00","water"],["M4 nộp bài cuối","CN 08:00–08:30","air"],["Thuyết trình 7 + 3 phút","CN 09:00","yellow"]],
+ mk:["Còn lại đến lúc tập trung (06:45)","Còn lại đến hạn nộp bài cuối (08:00 CN)","Còn lại đến lễ bế mạc (14:00 CN)"],
+ ended:"Cuộc thi đã kết thúc. Cảm ơn cả đội.",units:["NGÀY","GIỜ","PHÚT","GIÂY"],
+ liveTag:"ĐANG DIỄN RA",nowLive:"Đang diễn ra",nextUp:"Tiếp theo",gNow:"BÂY GIỜ",
+ hr:"giờ",mn:"phút",
+ day1:"Ngày 1",day1s:"Thứ Bảy, 14/11",day2:"Ngày 2",day2s:"Chủ Nhật, 15/11",chooseDay:"Chọn ngày",
+ viewBy:"Xem theo mảng",whole:"Cả đội",openAll:"Mở hết",closeAll:"Thu hết",filterAria:"Lọc theo mảng việc",
+ note1:"Mốc giờ có thể chạy sớm hơn: xong sớm thì chuyển sang bước sau. Hạn nộp M1 (12:00) và M2 (17:00) là hàng rào của BTC, đừng dùng hết. Giờ test M3 chưa biết trước, các mốc sau đó chỉnh theo thực tế.",
+ showTasks:"Xem việc cần làm",collapse:"Thu gọn",tasks:"Việc cần làm",breakdown:"Chia nhỏ khung giờ",output:"Đầu ra",done:"Xong",
+ gTitle:"Tổng quan 24 giờ",zoomOut:"Thu nhỏ",zoomIn:"Phóng to",widen:"Mở rộng",narrow:"Thu hẹp",
+ gMini:"Dải thời gian thật, 14/11 06:45 đến 15/11 14:00",
+ gNote:"Dải trên theo đúng tỷ lệ giờ. Bảng dưới chia theo pha nên độ rộng cột không theo tỷ lệ giờ: đọc theo giờ ghi ở đầu mỗi cột.",
+ dl:["Hạn M1","Hạn M2","Nộp","Pitch"],shiftLbl:["Ca 1 ngủ","Ca 2 ngủ"],lSleep:"Ngủ",
+ lTeam:"Ô lớn viền đứt = cả đội cùng làm",lHelp:"Bấm một ô để mở khung giờ bên dưới · bấm tên mảng để lọc",sleepShort:"Ngủ",
+ sl1:"Ngủ (Ca 1). Trước khi ngủ: bàn giao 3 dòng cho người thức cùng mảng.",sl2:"Ngủ (Ca 2). Trước khi ngủ: bàn giao 3 dòng cho người thức cùng mảng.",
+ pTitle:"Chuẩn bị trước ngày thi",pIntro:"Mục tiêu: vào phòng thi với mọi thứ đã làm sẵn, chỉ còn điền nội dung của đề. Tick khi xong; mục nào có tên hoặc chữ cái là người phụ trách.",
+ pWarn:"<b>Cần hỏi buddy hoặc BTC trước:</b> (1) luật chính thức về AI, internet, nguồn được phép; (2) nền tảng nào chấp nhận cho link Vibe Coding; (3) mẫu nộp chính thức của M4; (4) giờ test mic, slide, sân khấu sáng Chủ nhật.",
+ p4:"Lịch 4 ngày",pTpl:"Tài liệu và template",pOpen:"Mở thư mục ↗",pFigma:"Figma · {n} file",pDrive:"Google Drive · {n} thư mục",pTplCols:["Template","Người làm","Gồm những gì"],pSetup:"Cài đặt công cụ",pKnow:"Kiến thức cần học",pKnowDone:"Đã học và tập",
+ pGuess:"Đoán đề",pGuessNote:"Đây là dự đoán của chúng ta, không phải thông tin chính thức. Đề có thể thuộc 2 loại: tạo sản phẩm mới, hoặc giải bài toán kinh doanh có KPI cho trước (ví dụ onboarding 40% hoàn tất). Luyện cả hai.",
+ pPersonal:"Việc cá nhân",pDone:"Xong",pGear:"Hậu cần, mang theo",
+ areaWord:"Mảng",
+ rTitle:"Mảng việc và ca ngủ",
+ rIntro:"7 mảng việc, đặt tên A–G. Cả đội đọc việc của từng mảng ở tab Kế hoạch, mỗi người chọn mảng mình muốn làm, rồi điền tên vào cột Main (và Backup). Tên gõ ở cột Main sẽ tự thay chữ cái của mảng đó trên toàn trang.",
+ rCols:["Mảng việc","Main","Backup","Ca ngủ"],rMainPh:"Tên Main",rBackPh:"Tên Backup",
+ rShiftOpt:["Ca 1 · 23:30–03:00","Ca 2 · 03:30–06:30"],
+ rRulesT:"Quy tắc để không ai ngồi chờ",
+ rRules:["Mỗi mốc giờ có đầu ra rõ ràng. Xong sớm thì chuyển sang mốc sau, đừng nghỉ thêm.","Mỗi người luôn có 3 việc dự phòng (bên dưới) khi bị chặn chờ người khác.","Bàn giao theo mốc giờ ghi rõ trong timeline, không đợi nhắc.","Một người có thể nhận nhiều mảng; tối đa 2 mảng Main để không quá tải.","Quyết định: bỏ phiếu 2 phút, hoà thì {A} quyết, không bàn lại.","Sau 22:00 không thêm tính năng."],
+ rShiftT:"Ca ngủ",
+ rShiftRules:["Ca 1 ({S1}) ngủ 23:30–03:00. Ca 2 ({S2}) ngủ 03:30–06:30.","Main và Backup của cùng một mảng nên ở hai ca khác nhau, để lúc nào cũng có người thức phụ trách mảng đó.","Người thuyết trình ({F}) nên ngủ ở ca sớm (Ca 1) và ngủ đủ.","Mỗi ca khi thức vẫn cần đủ UX, UI và kinh doanh hoặc AI.","Bàn giao 3 dòng trước khi ngủ. Khu nghỉ nằm trên lầu: giữ yên tĩnh."],
+ rSpareT:"Việc dự phòng khi hết việc hoặc bị chặn",
+ wTitle:"Kiểm tra phân công",wOk:"Ổn: mỗi mảng có Main và Backup, và ở cả hai ca đều có người thức cho từng mảng.",
+ wNone:"Chưa có tên nào. Gõ tên vào cột Main và Backup để được kiểm tra.",
+ wUnassigned:"Còn {n} mảng chưa có Main.",wNoBackup:"Còn {n} mảng chưa có Backup.",
+ wOver:"{name} làm Main cho {n} mảng (hơn 2). Nên chuyển bớt một mảng cho người khác.",
+ wBoth:"{name} giữ mảng ở cả hai ca ngủ. Một người chỉ ngủ một ca: hãy đưa các mảng của người này về cùng một ca.",
+ wSame:"Mảng {area}: Backup trùng với Main.",
+ wBackShift:"Mảng {area}: Backup ngủ cùng ca với Main, nên ca còn lại không có ai thức phụ trách mảng này.",
+ sTitle:"Nộp bài và cách chấm",
+ sIntro:"Token chỉ thưởng cho bài nộp đủ checklist trong hạn, xếp theo giờ nộp. Token không cộng vào điểm thi, chỉ đổi thêm phút gặp mentor ở M3 và xét giải Token Leader. Đừng hy sinh chất lượng chỉ để nộp sớm.",
+ sDeadline:"Hạn: ",sScored:"Điểm chấm liên quan: ",sRubT:"Tiêu chí chấm giải Nhất và Nhì",
+ sRubIntro:"Tài liệu không ghi trọng số. Ban tổ chức nhấn mạnh tư duy vấn đề hơn vẻ ngoài: không muốn UI đẹp nhưng giải pháp không có giá trị. Giám khảo gồm cả người làm sản phẩm và lãnh đạo doanh nghiệp, nhận ra ngay giải pháp do AI nghĩ ra mà không khớp logic kinh doanh.",
+ sRubCols:["Nhóm","Tiêu chí con","Cách ghi điểm"],sDeckT:"Cấu trúc deck 7 phút",sDeckCols:["Slide","Nội dung","Milestone"]
+},
+en:{
+ pageTitle:"Designathon 24h Plan",
+ tabTimeline:"24h timeline",tabPrep:"Before the competition",tabRoles:"Roles & sleep shifts",tabSubmit:"Submission & scoring",tabsAria:"Sections",
+ legTitle:"Key deadlines",
+ leg:[["M1 submit document","12:00","earth"],["M2 submit Figma + Vibe Coding","17:00","fire"],["M3 test with the mentor","17:00–19:00","water"],["M4 final submission","Sun 08:00–08:30","air"],["Pitch 7 + 3 min","Sun 09:00","yellow"]],
+ mk:["Until we gather (06:45)","Until the final submission (Sun 08:00)","Until the closing ceremony (Sun 14:00)"],
+ ended:"The competition is over. Thank you, team.",units:["DAYS","HRS","MIN","SEC"],
+ liveTag:"HAPPENING NOW",nowLive:"Happening now",nextUp:"Next",gNow:"NOW",
+ hr:"h",mn:"min",
+ day1:"Day 1",day1s:"Sat, 14/11",day2:"Day 2",day2s:"Sun, 15/11",chooseDay:"Choose a day",
+ viewBy:"View by area",whole:"Whole team",openAll:"Expand all",closeAll:"Collapse all",filterAria:"Filter by area",
+ note1:"Times can run earlier: finish early and move on. The M1 (12:00) and M2 (17:00) deadlines are the organizers' guard rails, do not use them up. Our M3 test slot is not known in advance; adjust the later times to reality.",
+ showTasks:"Show tasks",collapse:"Collapse",tasks:"Tasks",breakdown:"Break-down",output:"Output",done:"Done",
+ gTitle:"24-hour overview",zoomOut:"Zoom out",zoomIn:"Zoom in",widen:"Widen",narrow:"Narrow",
+ gMini:"True-scale timeline, 14/11 06:45 to 15/11 14:00",
+ gNote:"The strip above is true to scale. The table below is split by phase, so column widths are not proportional to time: read the times at the top of each column.",
+ dl:["M1 deadline","M2 deadline","Submit","Pitch"],shiftLbl:["Shift 1 sleeps","Shift 2 sleeps"],lSleep:"Sleep",
+ lTeam:"Large dashed cell = whole team together",lHelp:"Click a cell to open that time block below · click an area name to filter",sleepShort:"Sleep",
+ sl1:"Sleep (Shift 1). Before sleeping: leave 3 lines of handover for whoever is awake in the same area.",sl2:"Sleep (Shift 2). Before sleeping: leave 3 lines of handover for whoever is awake in the same area.",
+ pTitle:"Before the competition",pIntro:"Goal: walk into the room with everything prepared, so we only fill in the brief's content. Tick when done; the name or letter on an item is the owner.",
+ pWarn:"<b>Ask the buddy or organizers first:</b> (1) the official rules on AI, internet and allowed sources; (2) which platforms are accepted for the Vibe Coding link; (3) the official M4 submission template; (4) the time of the mic, slide and stage test on Sunday morning.",
+ p4:"4-day schedule",pTpl:"Files and templates",pOpen:"Open folder ↗",pFigma:"Figma · {n} files",pDrive:"Google Drive · {n} folders",pTplCols:["Template","Owner","What it contains"],pSetup:"Tool setup",pKnow:"Things to learn",pKnowDone:"Learned and practiced",
+ pGuess:"Guess the brief",pGuessNote:"These are our own guesses, not official information. The brief may be one of 2 types: create a new product, or solve a business problem with a given KPI (for example 40% onboarding completion). Practice both.",
+ pPersonal:"Individual tasks",pDone:"Done",pGear:"Logistics, what to bring",
+ areaWord:"Area",
+ rTitle:"Areas and sleep shifts",
+ rIntro:"7 areas of work, named A–G. Everyone reads the tasks of each area in the Plan tab, picks the area they want, then types their name in the Main (and Backup) column. The name typed in the Main column replaces that area's letter across the whole page.",
+ rCols:["Area","Main","Backup","Sleep shift"],rMainPh:"Main name",rBackPh:"Backup name",
+ rShiftOpt:["Shift 1 · 23:30–03:00","Shift 2 · 03:30–06:30"],
+ rRulesT:"Rules so nobody sits idle",
+ rRules:["Every time block has a clear output. Finish early and move to the next block, do not take extra rest.","Everyone always has 3 spare tasks (below) when blocked waiting on someone.","Hand-offs follow the times written in the timeline, without waiting for a reminder.","One person can cover several areas; at most 2 Main areas each, to avoid overload.","Decisions: a 2-minute vote; if tied, {A} decides, no re-debating.","No new features after 22:00."],
+ rShiftT:"Sleep shifts",
+ rShiftRules:["Shift 1 ({S1}) sleeps 23:30–03:00. Shift 2 ({S2}) sleeps 03:30–06:30.","The Main and Backup of the same area should be in different shifts, so someone is always awake for that area.","The presenter ({F}) should sleep in the early shift (Shift 1) and get enough rest.","Each shift, while awake, still needs UX, UI and business or AI covered.","Leave 3 lines of handover before sleeping. The rest zone is upstairs: keep quiet."],
+ rSpareT:"Spare tasks when you run out of work or are blocked",
+ wTitle:"Assignment check",wOk:"Good: every area has a Main and a Backup, and every area has someone awake in both shifts.",
+ wNone:"No names yet. Type names in the Main and Backup columns to get a check.",
+ wUnassigned:"{n} area(s) still have no Main.",wNoBackup:"{n} area(s) still have no Backup.",
+ wOver:"{name} is Main for {n} areas (more than 2). Consider moving one to someone else.",
+ wBoth:"{name} holds areas in both sleep shifts. A person sleeps in only one shift: move this person's areas to the same shift.",
+ wSame:"Area {area}: the Backup is the same person as the Main.",
+ wBackShift:"Area {area}: the Backup sleeps in the same shift as the Main, so nobody is awake for this area in the other shift.",
+ sTitle:"Submission and scoring",
+ sIntro:"Tokens are only awarded to complete submissions on time, ranked by submission time. Tokens do not add to the competition score: they only buy extra mentor minutes in M3 and decide the Token Leader award. Do not sacrifice quality just to submit early.",
+ sDeadline:"Deadline: ",sScored:"Related scoring: ",sRubT:"Scoring criteria for 1st and 2nd prize",
+ sRubIntro:"The documents give no weights. The organizers stress problem thinking over looks: they do not want a pretty UI with a solution that has no value. The judges include product people and business leaders, who can quickly tell when an idea came from AI and does not fit business logic.",
+ sRubCols:["Category","Sub-criteria","How to score points"],sDeckT:"The 7-minute deck structure",sDeckCols:["Slide","Content","Milestone"]
+}
+};
+const tt=k=>{const v=U[lang][k];return v===undefined?U.vi[k]:v};
+
+/* ---------- areas (A–H), main/backup names, shifts ---------- */
+const SLEEP1=["B","D","F"], SLEEP2=["A","C","E","G"];
+const shiftOf=k=>{const v=store.shift&&store.shift[k];return v===1||v===2?v:(SLEEP1.includes(k)?1:2)};
+const nm=k=>((store.own&&store.own[k])||"").trim();
+const nm2=k=>((store.own2&&store.own2[k])||"").trim();
+const shiftNames=s=>{const seen=[];["A","B","C","D","E","F","G"].filter(k=>shiftOf(k)===s).forEach(k=>{const n=nm(k)||k;if(!seen.includes(n))seen.push(n)});return seen.join(", ")};
+const nt=t=>String(t).replace(/\{S1\}/g,()=>shiftNames(1)).replace(/\{S2\}/g,()=>shiftNames(2)).replace(/\{([A-G])\}/g,(m,k)=>nm(k)||k).replace(/(?<![\p{L}\p{N}&\/\-.])([A-G])(?![\p{L}\p{N}\/\-])/gu,(m,k)=>nm(k)||m);
+
+
+/* ---------- data (Vietnamese source) ---------- */
+const ROLES={
+ A:{n:"A",s:"",fit:"",spare:["Rà lại problem statement với bằng chứng","Viết sẵn câu trả lời Q&A về UX","Kiểm tra microcopy từng màn hình"]},
+ B:{n:"B",s:"",fit:"",spare:["Tự test prototype theo 3 task","Kiểm lại nguồn từng con số","Thêm 1 đối thủ vào bảng so sánh"]},
+ C:{n:"C",s:"",fit:"",spare:["Soát lỗi căn lề, font, bo góc toàn file","Làm thêm trạng thái rỗng/lỗi/đang tải","Xuất ảnh màn hình cho deck"]},
+ D:{n:"D",s:"",fit:"",spare:["Đặt tên layer, dọn trang, ảnh bìa file","Kiểm tra tương phản và kích thước chạm","Viết trang giới thiệu design library"]},
+ E:{n:"E",s:"",fit:"",spare:["Làm lại slide yếu nhất","Thiết kế ảnh bìa, key visual","Chuẩn hoá font và màu giữa deck và Figma"]},
+ F:{n:"F",s:"",fit:"",spare:["Tập lại câu mở đầu và câu kết (CTA)","Dịch/duyệt tiếng Anh toàn bộ deck","Soạn thêm câu Q&A khó"]},
+ G:{n:"G",s:"",fit:"",spare:["Sao lưu toàn bộ file về máy","Ghi lại AI đã nói gì và kiểm chứng ra sao, ngay trong M1 Progress Report","Quay video demo 60–90 giây"]}
+};
+const RK_TMP=0;
+const MS={
+ C0:{c:"neutral",t:"Check-in & khai mạc",d:"Thứ Bảy 14/11 · 07:00–09:00"},
+ M1:{c:"earth",t:"Milestone 1 · Earth · Hiểu đề",d:"09:00–12:00 · hạn nộp 12:00"},
+ BR:{c:"neutral",t:"Nghỉ trưa",d:"12:00–13:00"},
+ M2:{c:"fire",t:"Milestone 2 · Fire · Phát triển giải pháp",d:"13:00–17:00 · hạn nộp 17:00"},
+ M3:{c:"water",t:"Milestone 3 · Water · Test & chỉnh sửa",d:"17:00–19:00 · mentor chấm SUS"},
+ M4:{c:"air",t:"Milestone 4 · Air · Hoàn thiện & chuẩn bị",d:"19:00 thứ Bảy – 08:00 Chủ nhật"},
+ M5:{c:"neutral",t:"Nộp bài cuối & thuyết trình",d:"Chủ nhật 15/11 · 08:00–14:00"}
+};
+const all=(s,e,ms,t,d,o)=>({s,e,ms,t,d,o});
+const par=(s,e,ms,t,d,o,r)=>({s,e,ms,t,d,o,r});
+
+const B=[
+all("06:45","07:00","C0","Tập trung","Đủ 7 người trước 06:45\nChụp ảnh đội","Đủ 7 người"),
+all("07:00","08:00","C0","Check-in và nhận kit","Check-in cả đội cùng lúc (token thưởng)\nNhận kit, thay áo thi, chụp ảnh đội\nVào chỗ ngồi theo buddy",""),
+all("08:00","09:00","C0","Khai mạc, nghe luật, nhận đề","Nghe khai mạc và luật\nNhận đề, mỗi người chụp một bản",""),
+
+all("09:00","09:10","M1","Đọc đề","Đọc đề, gạch từ khoá\nKhi nghĩ đến đề, bạn nghĩ gì đầu tiên?\nXác định: loại đề nào? yếu tố nào? SDG nào?",""),
+all("09:10","09:20","M1","Tìm TA","Tìm Target Audience (TA)\nMap TA với từ khoá (ví dụ: không gian sống thu nhỏ của người trẻ, của người lớn tuổi)",""),
+all("09:20","09:30","M1","Viết problem","Mỗi người viết problem cho từng cặp TA × từ khoá",""),
+all("09:30","09:50","M1","Viết solution","Mỗi problem viết 10 solution\nProblem không tìm được solution thì bỏ",""),
+all("09:50","10:05","M1","Lọc và chốt","Bỏ những gì không quan trọng\nChốt problem và hướng giải pháp","Problem, TA, hướng giải pháp"),
+
+par("10:05","10:50","M1","Nghiên cứu song song","Mỗi bằng chứng dán thẳng vào M1 Progress Report, kèm link nguồn. Không phỏng vấn hay khảo sát: dùng số liệu và persona từ TA.","≥ 15 bằng chứng có nguồn",{
+ A:"Persona từ TA: nhu cầu, nỗi đau, hành vi",
+ B:"Số liệu về người dùng và vấn đề, có nguồn; Nỗi đau kinh doanh, TAM/SAM/SOM, ai trả tiền",
+ C:"Phân tích 3–5 đối thủ / giải pháp thay thế",
+ D:"Bài báo, diễn đàn, review theo từ khoá",
+ E:"Giải pháp đã có: iSTAR, patents, dự án đoạt giải",
+ F:"Số liệu, trích dẫn nổi bật cho phần mở đầu",
+ G:"Prompt khám phá; ghi lại cách kiểm chứng AI"}),
+
+all("10:50","11:15","M1","Tổng hợp","","Problem statement, 3–5 insight"),
+
+par("11:15","11:30","M1","Hoàn thiện và nộp M1 (mục tiêu 11:30)","Chỉ nộp khi đủ 5 mục. Hạn 12:00, mục tiêu 11:30.","M1 đã nộp",{
+ A:"Rà problem statement, insight, đủ 5 mục",
+ B:"Viết phần phương pháp nghiên cứu; Ghép tài liệu 5 mục",
+ C:"Phác flow cho giải pháp ứng viên",
+ D:"Chuẩn bị trang Flow, Library trong Figma",
+ E:"Chọn tên sản phẩm, hướng thị giác",
+ F:"",
+ G:"Thử link và quyền xem, bấm nộp"}),
+
+all("11:30","11:50","M1","Chọn tính năng cốt lõi","Chọn 1 tính năng (tác động × khả thi × demo được)\nChốt hành động chính và chỉ số thành công\nPhạm vi 5–7 màn hình","Key feature"),
+all("11:50","12:00","M1","Chia việc M2","Chia việc M2\nLưu file, nghỉ",""),
+
+all("12:00","13:00","BR","Nghỉ trưa","Ăn 12:00–12:40, rời màn hình\n12:40 họp nhanh 10 phút cho M2",""),
+
+all("13:00","13:15","M2","Khoá phạm vi M2","Xác nhận tính năng cốt lõi\nFlow chính 6–8 bước\nDanh sách màn hình\nChọn khoảnh khắc ấn tượng để demo","Flow, danh sách màn hình"),
+
+par("13:15","14:00","M2","Dựng nền","Bàn giao: E đưa nhận diện cho D lúc 13:30; A đưa journey cho C lúc 13:40; D đưa library cho C lúc 13:50.","Journey, flow, library, prototype v1",{
+ A:"Journey map, các bước flow",
+ B:"User flow + 3 task test; Đối thủ, KPI, mô hình doanh thu",
+ C:"Wireframe màn 1–4",
+ D:"Design library (xong 13:50)",
+ E:"Tên, logo, màu, font cho D; khung deck",
+ F:"Kịch bản v1; bài 5′ cho mentor",
+ G:"Prompt → prototype v1"}),
+
+par("14:00","14:30","M2","Hi-fi và chuẩn bị gặp mentor","Mentor đến khoảng 14:30. Nếu BTC phát thẻ dữ liệu AI, B và G soát cái nào bịa.","Hi-fi màn 1–8, bài 5 phút",{
+ A:"Bài 5′ cho mentor",
+ B:"3 câu hỏi cho mentor; Soát số liệu, thẻ dữ liệu AI",
+ C:"Hi-fi màn 1–4",
+ D:"Hi-fi màn 5–8 + trạng thái",
+ E:"Logo vào màn hình; master slide",
+ F:"Tập bài 5′ cùng A",
+ G:"Prototype v1 chạy được, có link để mentor xem"}),
+
+all("14:30","14:50","M2","Gặp mentor (20 phút)","A, B và F ngồi làm việc với mentor:\nA giới thiệu đề và vấn đề trong 2 phút\nF kể câu chuyện về người dùng và giải pháp\nB đưa ra số liệu và bằng chứng nghiên cứu\nCác bạn còn lại tiếp tục làm việc\nMột người ghi lại toàn bộ góp ý của mentor","Góp ý của mentor"),
+all("14:50","15:00","M2","Tiếp thu góp ý","Chia keep / change, cập nhật phạm vi\nKhông thêm tính năng mới",""),
+
+par("15:00","16:00","M2","Hoàn thiện hi-fi và prototype","Mọi màn hình phải phục vụ hành động chính.","Toàn bộ màn hình, prototype v2",{
+ A:"Rà microcopy; mỗi màn phục vụ hành động chính",
+ B:"Nối tương tác prototype; kịch bản test; Slide Impacts, rủi ro, nguồn",
+ C:"Hoàn thiện mọi màn hình",
+ D:"Component cuối, trang Library",
+ E:"Deck: nội dung M1, slide 1–5",
+ F:"Kịch bản v2; ngân hàng Q&A",
+ G:"Prototype v2, link công khai, video demo (nếu làm)"}),
+
+all("16:00","16:20","M2","QA toàn bộ flow","Cả đội chạy flow trên laptop và điện thoại, mỗi người 1 task\nA phân loại lỗi P0, P1, P2\nSửa ngay P0",""),
+par("16:20","16:30","M2","Nộp M2 (mục tiêu 16:30)","Figma + Vibe Coding phải đủ 4 mục: key feature, flow, prototype, design library. Hạn 17:00.","M2 đã nộp",{
+ A:"Xác nhận đủ 4 mục",B:"Kiểm lại flow khớp Figma; Kiểm tra mô tả khớp chỉ số",C:"Kiểm tra màn đầu và cuối",D:"Mở quyền xem Figma",
+ E:"Chụp màn hình đẹp cho deck",F:"Mô tả tính năng chính 3 dòng",G:"Bấm nộp, thử link ẩn danh"}),
+par("16:30","17:00","M2","Chuẩn bị test M3","","Bộ test sẵn sàng",{
+ A:"Phân vai test",B:"Kịch bản test, 3 task; Câu hỏi kinh doanh cho mentor",C:"Sửa 3 lỗi nặng nhất",D:"Kiểm tra tương phản, cỡ chữ",
+ E:"Deck slide 6–9",F:"Lời mở đầu buổi test",G:"Prototype trên 2 thiết bị, về trạng thái đầu"}),
+
+all("17:00","17:10","M3","Chốt nhóm test","Nhóm Test: A, B, F, G · Nhóm Build: C, D, E\nCó đổi token lấy thêm phút không (tối đa +20)",""),
+par("17:10","18:00","M3","Test với mentor","Mặc định 20 phút (tối đa 40 nếu đổi token). Lượt test theo bảng token; chưa tới lượt thì làm việc của mình.","Ghi chú quan sát",{
+ A:"Nhóm Test: quan sát, ghi lỗi và trích dẫn",
+ B:"Nhóm Test: dẫn test; số liệu cho Q&A",
+ C:"Nhóm Build: chỉnh khoảnh khắc ấn tượng",
+ D:"Nhóm Build: library, trạng thái, truy cập",
+ E:"Nhóm Build: deck 1–9",
+ F:"Nhóm Test: giữ giờ, ghi cảm xúc",
+ G:"Nhóm Test: vận hành prototype"}),
+par("18:00","19:00","M3","Debrief và chỉnh sửa","Mỗi thay đổi ghi: Trước, Sau, Vì sao, Bằng chứng.","3–5 thay đổi + ảnh trước/sau",{
+ A:"Chủ trì debrief, chốt 3–5 thay đổi",B:"Cập nhật flow; Cập nhật số liệu bị ảnh hưởng",C:"Sửa màn hình, chụp trước/sau",D:"Cập nhật component",
+ E:"Slide Testing và Refine",F:"Viết lại phần kể chuyện",G:"Áp thay đổi, triển khai lại, kiểm tra link"}),
+
+all("19:00","20:00","M4","Ăn tối luân phiên","A, B, C, D ăn 19:00–19:30\nE, F, G ăn 19:30–20:00\nNgười còn lại tiếp tục sửa",""),
+all("20:00","20:15","M4","Họp đóng băng phạm vi","Việc còn lại và chủ từng việc\nChốt ca ngủ\nTừ 22:00 không thêm tính năng",""),
+par("20:15","22:00","M4","Hoàn thiện sản phẩm","Sản phẩm demo được mà không cần giải thích thêm.","Sản phẩm gần cuối, deck v1",{
+ A:"Rà flow, copy, accessibility",B:"QA prototype; Impacts, nguồn, kiểm lại số liệu",C:"Hoàn thiện mọi màn hình, chỉnh bóng",D:"Library cuối, dọn file Figma",
+ E:"Deck v1 đủ 20 slide, 16:9",F:"Kịch bản v3, tập lần 1",G:"Bản vibe coding cuối, sao lưu"}),
+all("22:00","22:30","M4","Đóng băng và review chéo","A dẫn cả đội đi qua sản phẩm\nGhi lỗi P0, P1; giao P0",""),
+par("22:30","23:30","M4","Sửa P0 và chỉnh deck","Giờ cuối trước khi Ca 1 đi ngủ, bàn giao rõ cho ca sau.","P0 xong, deck v2",{
+ A:"Sửa P0 UX; đáp án Q&A",B:"Bằng chứng cho Q&A; Kiểm nguồn, ghi chú số liệu",C:"Chỉnh bóng lần 2, xuất ảnh",D:"Library cuối, sao lưu Figma",
+ E:"Chỉnh deck slide 6–12",F:"Đọc kịch bản có bấm giờ",G:"QA cuối, triển khai, sao lưu"}),
+
+par("23:30","03:00","M4","Ca đêm 1: Ca 2 làm, Ca 1 ngủ","Ca 1 ({S1}) ngủ 23:30–03:00. Ca 2 ({S2}) làm tiếp.","Deck v3, sản phẩm sạch lỗi",{
+ A:"",B:"",C:"",D:"",E:"",F:"",G:""}),
+all("03:00","03:30","M4","Chuyển ca","A đọc bản bàn giao 5 dòng\nCa 2 đi ngủ",""),
+par("03:30","06:30","M4","Ca đêm 2: Ca 1 làm, Ca 2 ngủ","Ca 2 ({S2}) ngủ 03:30–06:30. Ca 1 ({S1}) chỉ sửa lỗi trong danh sách.","Lần tập 2, lỗi nhỏ đã sửa",{
+ A:"",B:"",C:"",D:"",E:"",F:"",G:""}),
+
+par("06:30","07:15","M4","Thức dậy và tập lần 3","06:45 tập trọn 7 phút + 3 phút Q&A, cả đội làm giám khảo.","Phản hồi cuối",{
+ A:"Giám khảo; ghi 3 điều cần sửa",B:"Giám khảo: Q&A UX, nghiên cứu; Giám khảo: Q&A kinh doanh",C:"Giám khảo: hình ảnh trên slide",D:"Giám khảo: mở deck như máy trình chiếu",
+ E:"Sửa slide theo phản hồi",F:"Thuyết trình chính 7′",G:"Giám khảo: Q&A AI, kỹ thuật"}),
+par("07:15","08:00","M4","Sửa lần cuối, chuẩn bị nộp","File sẵn từ 08:00.","Gói nộp hoàn chỉnh",{
+ A:"Rà checklist nộp M4, tên file đúng mẫu",B:"Mở mọi link ẩn danh, kiểm tra quyền; Soát nguồn ở phụ lục",C:"Chốt file Figma",D:"Gửi Figma lên Space cùng buddy",
+ E:"Xuất PDF 16:9, kiểm từng trang",F:"Tập mở đầu, kết và CTA",G:"Tải PDF, video lên Drive của BTC"}),
+
+all("08:00","08:30","M5","Nộp bài cuối","H và A nộp: Figma Space (nhờ buddy), PDF 16:9, video (nếu có)\nMở lại từng link sau khi nộp","Đã nộp"),
+all("08:30","09:00","M5","Khu chuẩn bị","Test mic, slide, sân khấu (giờ do BTC báo)\nKiểm tra thứ tự thuyết trình",""),
+par("09:00","12:00","M5","Thuyết trình (7 + 3 phút Q&A)","Thứ tự bốc ngẫu nhiên. Q&A: UX, test, kinh doanh → A, B; AI → G; thị giác → C, E.","",{
+ A:"Hỗ trợ F; Q&A UX, test",B:"Q&A nghiên cứu, bằng chứng; Q&A kinh doanh, thị trường",C:"Q&A thị giác, màn hình",D:"Giữ máy, điều khiển slide",
+ E:"Q&A nhận diện; chụp ảnh",F:"Thuyết trình chính",G:"Q&A AI, kỹ thuật; điều khiển demo"}),
+all("12:00","12:30","M5","Nghỉ","",""),
+all("12:30","13:45","M5","Trao giải","Champion, Runner-up, Token Leader, Fan Favorite",""),
+all("13:45","14:00","M5","Bế mạc","Chụp ảnh chung","")
+];
+/* gán ngày và thời điểm tuyệt đối */
+let day=14,prev=-1;
+B.forEach((b,i)=>{
+  b.id="b"+i;
+  const s=toMin(b.s);
+  if(prev>=0&&s<prev)day=15;
+  prev=s;
+  b.abs=(day-14)*1440+s;
+  let e=toMin(b.e); let ed=day;
+  if(e<=s){ed=day+1}
+  b.absEnd=(ed-14)*1440+e;
+  b.day=day;
+  b.dur=b.absEnd-b.abs;
+});
+
+const GP=[
+ {bl:[0,1,2],ms:"C0",t:"Check-in và nhận đề",sub:"",team:"Cả đội\n\nCheck-in cùng lúc\nNhận kit, chụp ảnh\nNghe luật, nhận đề"},
+ {bl:[3,4,5,6,7],ms:"M1",t:"M1 · Cả đội: từ đề đến problem",sub:"",team:"Cả đội cùng làm\n\n09:00 đọc đề, gạch từ khoá\n09:10 tìm TA, map từ khoá\n09:20 viết problem\n09:30 mỗi problem 10 solution\n09:50 lọc, chốt problem và hướng"},
+ {bl:[8],ms:"M1",t:"M1 · Nghiên cứu song song",sub:"",r:{A:"Persona từ TA",B:"Số liệu người dùng, vấn đề; Nỗi đau KD, TAM/SAM/SOM",C:"3–5 đối thủ",D:"Bài báo, diễn đàn, review",E:"Giải pháp đã có, patents",F:"Số liệu, trích dẫn nổi bật",G:"Prompt khám phá, AI Log"}},
+ {bl:[9,10],ms:"M1",t:"M1 · Tổng hợp và nộp",sub:"",r:{A:"Problem statement, rà 5 mục",B:"Phần phương pháp; Ghép Doc 5 mục",C:"Phác flow",D:"Trang Flow, Library",E:"Tên sản phẩm, mood",F:"",G:"Thử link, nộp M1"}},
+ {bl:[11,12,13],ms:"BR",t:"Chọn tính năng · Trưa",sub:"",team:"Cả đội\n\n11:30 chọn 1 tính năng\n11:50 chia việc M2\n12:00 ăn trưa, nghỉ"},
+ {bl:[14,15],ms:"M2",t:"M2 · Dựng nền",sub:"",r:{A:"Journey map, flow",B:"User flow, 3 task test; Đối thủ, KPI, doanh thu",C:"Wireframe màn 1–4",D:"Design library (13:50)",E:"Tên, logo, màu; khung deck",F:"Kịch bản v1",G:"Prototype v1"}},
+ {bl:[16,17,18],ms:"M2",t:"M2 · Hi-fi và mentor",sub:"",r:{A:"Gặp mentor 14:30: giới thiệu đề trong 2 phút",B:"Gặp mentor: trình bày số liệu và bằng chứng; kiểm thẻ dữ liệu AI",C:"Hi-fi màn 1–4",D:"Hi-fi màn 5–8",E:"Logo, master slide",F:"Gặp mentor: kể câu chuyện sản phẩm",G:"Prototype v1 chạy được, có link để mentor xem"}},
+ {bl:[19,20,21],ms:"M2",t:"M2 · Hi-fi, QA, nộp",sub:"",r:{A:"Microcopy, chất lượng",B:"Nối prototype, kịch bản test; Impacts, rủi ro, nguồn",C:"Hoàn thiện màn hình",D:"Component cuối, Library",E:"Deck: nội dung M1",F:"Kịch bản v2, Q&A",G:"Prototype v2, nộp M2"}},
+ {bl:[22,23],ms:"M2",t:"Chuẩn bị test",sub:"",r:{A:"Phân vai test",B:"Kịch bản test; Câu hỏi KD cho mentor",C:"Sửa 3 lỗi nặng",D:"Tương phản, cỡ chữ",E:"Deck slide 6–9",F:"Lời mở đầu test",G:"Prototype 2 thiết bị"}},
+ {bl:[24,25],ms:"M3",t:"M3 · Test và chỉnh sửa",sub:"",r:{A:"Quan sát; debrief",B:"Dẫn test; Metrics, Q&A",C:"Sửa màn hình",D:"Library, truy cập",E:"Deck 1–9, Testing",F:"Giữ giờ; viết lại chuyện",G:"Vận hành prototype"}},
+ {bl:[26,27,28],ms:"M4",t:"M4 · Hoàn thiện sản phẩm",sub:"",r:{A:"Flow, copy, accessibility",B:"QA prototype; Impacts, nguồn, số liệu",C:"Hoàn thiện, chỉnh bóng",D:"Library cuối, dọn Figma",E:"Deck v1, 16:9",F:"Kịch bản v3",G:"Vibe coding cuối, sao lưu"}},
+ {bl:[29,30],ms:"M4",t:"M4 · Đóng băng, sửa P0",sub:"",r:{A:"P0 UX; Q&A",B:"Bằng chứng cho Q&A; Kiểm nguồn",C:"Chỉnh bóng lần 2",D:"Library cuối, sao lưu",E:"Chỉnh deck",F:"Đọc có bấm giờ",G:"QA cuối, sao lưu"}},
+ {bl:[31,32],ms:"M4",t:"M4 · Ca đêm 1",sub:"",r:{A:"",B:"",C:"",D:"",E:"",F:"",G:""}},
+ {bl:[33],ms:"M4",t:"M4 · Ca đêm 2",sub:"",r:{A:"",B:"",C:"",D:"",E:"",F:"",G:""}},
+ {bl:[34,35],ms:"M4",t:"M4 · Tập lần 3, chuẩn bị nộp",sub:"",r:{A:"Giám khảo; checklist M4",B:"Giám khảo; test link; Soát nguồn",C:"Chốt file Figma",D:"Figma lên Space",E:"PDF 16:9",F:"Thuyết trình chính",G:"PDF, video lên Drive"}},
+ {bl:[36,37],ms:"M5",t:"Nộp cuối, khu chuẩn bị",sub:"",team:"H và A nộp\n\nFigma Space, PDF 16:9, video\n\n08:30 test mic, slide, sân khấu (giờ BTC báo)"},
+ {bl:[38,39,40,41],ms:"M5",t:"Thuyết trình · trao giải",sub:"",r:{A:"Hỗ trợ F; Q&A UX",B:"Q&A nghiên cứu; Q&A kinh doanh",C:"Q&A thị giác",D:"Giữ máy, điều khiển slide",E:"Q&A nhận diện",F:"Thuyết trình chính",G:"Q&A AI; demo"}}
+];
+const STEPS={
+ b9:[["10:50","11:05","Mỗi người báo 3 phát hiện chính"],["11:05","11:10","Gom 3–5 insight, bỏ cái không có bằng chứng"],["11:10","11:13","Viết problem statement 1 câu: [Người dùng] cần [nhu cầu] vì [insight], nhưng [rào cản]"],["11:13","11:15","Chốt hướng giải pháp và lý do"]],
+ b25:[["18:00","18:15","Debrief"],["18:15","18:30","Chọn 3–5 thay đổi"],["18:30","18:55","Sửa theo danh sách"],["18:55","19:00","Chụp ảnh trước/sau"]],
+ b34:[["06:30","06:45","Thức dậy, thay đồ"],["06:45","06:55","Thuyết trình 7′ có bấm giờ"],["06:55","07:05","Q&A 3′, phản hồi"],["07:05","07:15","Ghi 3 điều cần sửa"]]
+};
+const PREP_DAYS=[
+ ["10/11 (Thứ Ba)",["Chốt 7 mảng việc: Main, Backup, ca ngủ (tab Vai trò & ca ngủ)","Lập nhóm chat, thư mục Drive, FigJam","Đọc Booklet, Template & Rubric, Event Board","Cài công cụ (xem bên dưới)"]],
+ ["11/11 (Thứ Tư)",["Làm bộ template, mỗi template một người","Viết problem theo yếu tố được giao, mỗi problem 10 solution","Học 2 chủ đề đầu tiên"]],
+ ["12/11 (Thứ Năm)",["Chạy thử M1 với đề giả: đọc đề → TA → problem → solution → lọc → tài liệu 5 mục","Họp rút kinh nghiệm, sửa template"]],
+ ["13/11 (Thứ Sáu)",["Chạy thử M2 rút gọn: 1 tính năng → flow → 3 màn hình → prototype","Tập pitch 7 phút + 3 phút Q&A","Đóng đồ, sạc pin, sao lưu; ngủ trước 22:30"]],
+ ["14/11 · 06:45",["Cả đội có mặt đủ, mặc áo thi, check-in cùng lúc"]]
+];
+const TEMPLATES=[
+ ["Tài liệu M1 (5 mục)","G","5 tiêu đề đúng yêu cầu BTC: người dùng và bối cảnh, phương pháp nghiên cứu, bằng chứng và insight, problem statement 1 câu, cơ hội và giải pháp."],
+ ["Evidence Log (Google Sheet)","G","Cột: ID, loại (số liệu, trích dẫn, bài viết, nguồn), nội dung, URL, ngày, người thu thập, độ tin cậy."],
+ ["AI Verification Log","H","Cột: AI nói gì, prompt, công cụ, kiểm chứng bằng gì, kết quả, dùng hay bỏ."],
+ ["FigJam đội","B","Khu: Brief, TA × từ khoá, Problem, Solution, lọc. Có sẵn đồng hồ đếm."],
+ ["Persona + khách hàng","A","Hai thẻ: người dùng và người trả tiền. Nhu cầu, nỗi đau, hành vi."],
+ ["Journey map","A","Giai đoạn, hành động, cảm xúc, nỗi đau, cơ hội. Hai bản: hiện tại và có giải pháp."],
+ ["User flow","B","Đường chính 6–8 bước, 2 trường hợp lỗi."],
+ ["File Figma khởi đầu","D","Trang: Cover, Research, Flow, Screens, Library. Token, 10–12 component lõi có trạng thái. Tương phản ≥ 4.5:1."],
+ ["Deck 20 slide, 16:9","E","Theo mẫu BTC: Cover, M1, M2, M3, M4, Impacts/Metrics, Closing (tên và vai từng người), Phụ lục."],
+ ["Kịch bản sườn 7 phút","F","Mở 3I, thân (một câu tóm ý tưởng), kết (takeaway, paraphrase, CTA). ≤ 3 phút nghiên cứu, ≥ 4 phút giải pháp."],
+ ["Ngân hàng 20 câu Q&A","F, G","Khác đối thủ ở đâu? Rủi ro? Vì sao AI? Ai trả tiền? Số liệu từ đâu? Đo thành công thế nào?"],
+ ["Bộ test M3","B","Lời mở, 3 task, SUS 10 câu, bảng quan sát. SUS: câu lẻ (điểm − 1), câu chẵn (5 − điểm), cộng rồi × 2,5."],
+ ["Prompt pack","H","Khám phá vấn đề, tóm tắt nguồn, phản biện giả thuyết, dữ liệu mẫu hợp lý, prompt vibe coding. Luôn yêu cầu nguồn và chỗ chưa chắc."],
+ ["Khởi đầu vibe coding","H","Stageshow, Figma Make, Claude Code đã đăng nhập; một dự án mẫu triển khai được ra link công khai."],
+ ["Checklist nộp bài","H","Tên file [Team]_[Project], quyền xem link, thư mục Drive đúng."]
+];
+const FILE_LINKS={figma:"https://www.figma.com/files/folder/688274139",drive:"https://drive.google.com/drive/u/2/folders/1M0QFPaF8sOgUpB8adfyPSiSMjLifw8tb"};
+const FILES={
+ figma:[
+  ["KaBoom - Main","File chính của đội. Trang: Cover, Research, Flow, Screens, Library. Màn hình hi-fi và prototype nằm ở đây."],
+  ["KaBoom - Library Starter","Design library: token (màu, chữ, khoảng cách, bo góc), 10–12 component lõi có trạng thái. Tương phản ≥ 4.5:1."],
+  ["KaBoom - FigJam Board","Bảng làm việc M1: Brief, TA × từ khoá, Problem, Solution, lọc. Có sẵn đồng hồ đếm."],
+  ["KaBoom - Pitch Deck","Deck 20 slide, 16:9, theo mẫu BTC: Cover, M1, M2, M3, M4, Impacts/Metrics, Closing (tên và vai từng người), Phụ lục."]
+ ],
+ drive:[
+  ["00 - Admin",[["Links and Checklist","Mọi link làm việc, câu hỏi cho buddy, checklist nộp M1, M2, M4."]]],
+  ["01 - M1",[["M1 Progress Report","5 mục BTC yêu cầu. Nguồn dán thẳng cạnh mỗi ý, kèm ghi chú AI đã được kiểm chứng ra sao."]]],
+  ["02 - M2",[["M2 Progress Report","4 mục BTC yêu cầu: key feature, user flow, prototype, design library. Kèm ghi chú buổi mentor và kịch bản test M3."]]],
+  ["03 - Pitch",[["Pitch Script and Q&A","Kịch bản 7 phút theo 3I và 10 câu Q&A hay gặp."]]]
+ ]
+};
+const SETUP=[
+ "Tài khoản Claude (có Claude Code), ChatGPT, Gemini: đăng nhập sẵn trên laptop. BTC chỉ phát tài khoản Figma (3.000 credit) vào ngày thi.",
+ "Cài Node và skill Stageshow:  npx skills add benjitaylor/skills --skill stageshow  — thử dựng 1 demo nhỏ trước.",
+ "Thử Figma Make và Claude Code: tạo prototype 1 màn hình, triển khai ra link công khai, mở trên điện thoại.",
+ "Thư mục Drive chung có sẵn cấu trúc: 01-M1, 02-M2, 03-M3, 04-M4-Final. Tên file mẫu [Team]_[Project].",
+ "Tải sẵn offline: template, font, icon, ảnh minh hoạ, ảnh logo đội. Không dựa vào duy nhất một link đám mây.",
+ "Nhóm chat có ghim: link FigJam, Figma, Drive, tab timeline này.",
+ "Hotspot điện thoại dự phòng, ổ cắm nhiều lỗ, sạc dự phòng, chuột, tai nghe."
+];
+const KNOW=[
+ ["5 câu W-H khám phá vấn đề","Ai gặp vấn đề, khi nào, bao lâu một lần, hậu quả, hiện xử lý thế nào. Tập với 3 bài báo bất kỳ."],
+ ["Người dùng và khách hàng","Persona cần cho thấy cả người dùng và người trả tiền. Tập vẽ 2 thẻ trong 10 phút."],
+ ["TAM, SAM, SOM","Tính từ dưới lên bằng số cụ thể và nguồn. Tập: ước lượng thị trường cho một app giả định."],
+ ["Mục tiêu kinh doanh → KPI → điểm nghẽn → nguyên nhân","Cách giải đề dạng bài toán kinh doanh (ví dụ Bank X onboarding 40%). Tập với 2 ví dụ."],
+ ["Nghiên cứu bàn giấy và số liệu","Tìm nguồn tin cậy, trích dẫn, phân tích đối thủ. Dán nguồn ngay cạnh mỗi ý trong tài liệu."],
+ ["Kiểm chứng đầu ra của AI","Tách bằng chứng khỏi giả định. Kiểm tra chéo bằng 2 công cụ và 1 nguồn gốc."],
+ ["4 yếu tố và 17 mục tiêu phát triển bền vững (SDG)","Học thuộc 4 yếu tố và gắn mỗi yếu tố với vài SDG."],
+ ["Thiết kế dễ tiếp cận","Tương phản ≥ 4.5:1, vùng chạm ≥ 44 px, ngôn ngữ đơn giản. Hợp với yếu tố Water."],
+ ["AI có trách nhiệm","Ảo giác, thiên lệch, năng lượng tiêu thụ, quyền riêng tư. Chuẩn bị 3 ý để trả lời “vì sao AI?”"],
+ ["Figma nâng cao","Auto layout, variables, component có trạng thái, prototype có tương tác."],
+ ["Thuyết trình tiếng Anh","3I mở đầu, một câu tóm ý tưởng, CTA kết. Tập Q&A bằng tiếng Anh."]
+];
+const GUESS=[
+ ["Earth","earth",["Rác và tái chế tại hộ gia đình","Lãng phí thực phẩm","Tiết kiệm năng lượng","Thích ứng ngập lụt và khí hậu","Nông nghiệp bền vững, chuỗi cung ứng"]],
+ ["Water","water",["Sức khoẻ tinh thần và kiệt sức","Người khuyết tật, tiếp cận","Chăm sóc người cao tuổi","Tiếp cận y tế","Trẻ em và sức khoẻ số"]],
+ ["Fire","fire",["Minh bạch và đạo đức AI","Năng lượng tiêu thụ của AI","Thông tin sai lệch, deepfake","Cộng tác người–AI trong công việc","AI trong giáo dục"]],
+ ["Air","air",["Tiếp cận tri thức, rào cản ngôn ngữ","Học tập vùng sâu vùng xa","Kỹ năng số cho người lớn tuổi","Thông tin công dân dễ hiểu","Công cụ mở cho cộng đồng"]]
+];
+const PERSONAL=[
+ ["Đoán đề (mỗi người một yếu tố)","A, B: Earth\nC, D: Water\nE, F: Fire\nG: Air\n\nTìm TA, map từ khoá, viết problem, mỗi problem 10 solution.\nDán vào FigJam."],
+ ["Đọc các giải pháp đã có","3 dự án: SIHUB/iSTAR, VnExpress Sáng kiến khoa học, Google Patents\n\nMỗi dự án 5 dòng: problem, bằng chứng, solution, khoảng trống."],
+ ["Việc riêng theo mảng","A: persona, journey trong 20 phút\nB: tìm số liệu có nguồn, mẫu TAM/SAM/SOM\nC, D: dựng thử 3 màn hình + library\nE: khung deck 16:9\nF: tập kể 7 phút bằng tiếng Anh\nG: vibe coding một flow từ prompt"],
+ ["Thể lực và tinh thần","Ngủ đủ từ hôm nay\nUống nước, ăn đúng bữa\nBáo buddy nếu có dị ứng, bệnh nền"]
+];
+const GEAR=[
+ "Laptop, sạc, chuột, tai nghe, ổ cắm nhiều lỗ, sạc dự phòng, cáp điện thoại",
+ "Áo thi (BTC phát 1 áo), đồ thay cho đêm và Chủ nhật, áo khoác mỏng (phòng lạnh)",
+ "Đồ vệ sinh cá nhân, khăn lau, khăn giấy ướt (không có phòng tắm), đồ dùng kỳ kinh nếu cần",
+ "Gối, bịt mắt, nút bịt tai (được mang gối, không mang lều)",
+ "Bình nước, đồ ăn nhẹ hợp khẩu vị, thuốc cá nhân",
+ "CCCD/giấy tờ đăng ký. Tuyệt đối không ra khỏi khu vực thi: ra ngoài là cả đội bị loại"
+];
+const SUB=[
+ ["M1","earth","12:00 (mục tiêu 11:30)","Một link tài liệu, quyền xem mở cho BTC và mentor","Hiểu vấn đề · Persona và đối thủ",
+  ["Người dùng và bối cảnh (sản phẩm hay tình huống nào, cho ai)","Phương pháp nghiên cứu (đã thu thập thông tin thế nào)","Phát hiện và insight kinh doanh: bằng chứng truy vết được (số liệu, trích dẫn, ảnh chụp, link nguồn)","Problem statement: một câu về vấn đề quan trọng nhất","Cơ hội và giải pháp: chọn vấn đề nào, hướng nào, vì sao"]],
+ ["M2","fire","17:00 (mục tiêu 16:30)","Link Figma + link Vibe Coding, cùng trả lời đủ 4 mục","UX và flow · Chất lượng UI · Ứng dụng AI",
+  ["Tính năng cốt lõi (đúng 1 tính năng)","User flow của hành động chính, đầu đến cuối","Prototype (link bấm được)","Giới thiệu ngắn design library / style guide"]],
+ ["M3","water","17:00–19:00 (theo lượt)","Phỏng vấn mentor, mentor chấm SUS","Test người dùng và chỉnh sửa",
+  ["Ghi nhận: task, thành công, chỗ lúng túng, trích dẫn","Chọn 3–5 thay đổi","Mỗi thay đổi ghi: Trước, Sau, Vì sao, Bằng chứng"]],
+ ["M4","air","08:00–08:30 Chủ nhật (file sẵn từ 08:00)","Figma Space + PDF thuyết trình + video (nếu có) lên Drive","Slide và thuyết trình · Q&A",
+  ["Hoàn thiện toàn bộ thiết kế","Deck ≤ 20 slide, 16:9, ≥ 4 phút cuối dành cho giải pháp","Tên file [Team name]_[Project name]","Figma Space đã gửi cùng buddy","Mở lại mọi link sau khi nộp"]]
+];
+const RUBRIC=[
+ ["Problem Thinking (insight)","Persona và nghiên cứu đối thủ; hiểu vấn đề","Bằng chứng truy vết được, insight có số liệu, không chỉ ý kiến."],
+ ["Solution Design (innovation)","Độc đáo và đổi mới; khả năng thích ứng kinh doanh và mở rộng","Ai trả tiền, quy mô thị trường, lợi thế so với đối thủ, bỏ AI thì sao."],
+ ["UX Design","Logic UX và user flow; test người dùng và chỉnh sửa","Flow gọn, có kết quả test và thay đổi dựa trên bằng chứng."],
+ ["UI Design","Chất lượng UI; chất lượng thị giác","Library nhất quán, tương phản tốt, một “khoảnh khắc ấn tượng”."],
+ ["AI Application","Công cụ AI thân thiện; logic kiểm chứng AI","Ghi trong tài liệu: AI nói gì, kiểm chứng ra sao, dùng hay bỏ. AI là đồng đội, không phải người dẫn đầu."],
+ ["Presentation & Q&A","Slide và trình bày; trả lời Q&A","7 phút trình bày + 3 phút hỏi đáp. Phân vai trả lời trước."]
+];
+
+/* ---------- constants that are translated ---------- */
+const ELM={M1:["Earth","Hiểu đề","earth","Milestone 1"],M2:["Fire","Phát triển giải pháp","fire","Milestone 2"],M3:["Water","Test & chỉnh sửa","water","Milestone 3"],M4:["Air","Hoàn thiện","air","Milestone 4"]};
+const DOT={C0:"var(--orange)",M1:"var(--earth)",BR:"var(--neutral)",M2:"var(--fire)",M3:"var(--water)",M4:"var(--air)",M5:"var(--yellow)"};
+const MSB=[["C0",405,540,"Check-in"],["M1",540,720,"M1 Earth"],["BR",720,780,"Trưa"],["M2",780,1020,"M2 Fire"],["M3",1020,1140,"M3 Water"],["M4",1140,1920,"M4 Air · hoàn thiện qua đêm"],["M5",1920,2280,"Nộp, pitch, trao giải"]];
+const MCOL={C0:"neutral",M1:"earth",BR:"neutral",M2:"fire",M3:"water",M4:"air",M5:"yellow"};
+const DECK=[["0","Cover: tên sản phẩm, tên đội","—"],["1","Người dùng và bối cảnh","M1"],["2","Nỗi đau kinh doanh, đối thủ, thị trường","M1"],["3","Problem statement","M1"],["4","Phương pháp UX, tài liệu tham khảo","M1"],["5","Cơ hội và giải pháp","M1"],["6","Tính năng cốt lõi","M2"],["7","User flow","M2"],["8","Prototype","M2"],["9","Design library","M2"],["10","Test với mentor","M3"],["11","Giải pháp sau chỉnh sửa (có link Figma)","M4"],["12","Tác động, chỉ số, khả thi","M4"],["13","Kết: tên và vai mọi thành viên","—"],["PL","Phụ lục, nguồn tham khảo","—"]];
+
+/* night shifts: what each area does when awake (w1 = night 1, w2 = night 2) and its short gantt label (g1, g2) */
+const NIGHT={
+ A:{w1:"Rà logic câu chuyện cùng E; checklist nộp M4; viết bàn giao 5 dòng",g1:"Logic câu chuyện, checklist M4",w2:"Đọc bàn giao; rà checklist nộp M4, chốt điểm tồn",g2:"Checklist M4, chốt điểm tồn"},
+ B:{w1:"Soát bằng chứng, nguồn số liệu, đáp án Q&A; test link như người lạ",g1:"Bằng chứng, nguồn, test link",w2:"Đóng vai giám khảo: hỏi Q&A, kể cả kinh doanh; soát số liệu lần cuối",g2:"Giám khảo giả lập, soát số liệu"},
+ C:{w1:"Kiểm tra nhất quán file: font, bo góc, icon; sửa lỗi P1",g1:"Nhất quán file, sửa P1",w2:"Chốt file Figma: ảnh bìa, không layer rác",g2:"Chốt file Figma"},
+ D:{w1:"Dọn file Figma: tên layer, quyền xem; trang Library",g1:"Dọn Figma, Library",w2:"Dọn file Figma lần cuối, quyền xem link",g2:"Dọn Figma, quyền xem link"},
+ E:{w1:"Deck bản cuối; xuất PDF 16:9, tên [Team]_[Project].pdf",g1:"Deck cuối, xuất PDF",w2:"Chỉnh slide yếu nhất; kiểm tra từng trang",g2:"Chỉnh slide, kiểm từng trang"},
+ F:{w1:"Tập đọc có bấm giờ, chỉnh theo slide mới nhất",g1:"Tập đọc, chỉnh kịch bản",w2:"Tập lần 2 trọn 7 phút với người thức làm khán giả",g2:"Tập lần 2 (7′)"},
+ G:{w1:"Hoàn thiện prototype, video (nếu làm); gói nộp",g1:"Prototype, video, gói nộp",w2:"QA prototype lần cuối, triển khai, sao lưu",g2:"QA prototype, sao lưu"}
+
+};
+
+GP.forEach(p=>{p.a=B[p.bl[0]].abs;p.z=B[p.bl[p.bl.length-1]].absEnd;p.s=B[p.bl[0]].s;p.e=B[p.bl[p.bl.length-1]].e});
+
+/* ---------- English overlay (index-aligned with the Vietnamese data) ---------- */
+const EN={
+ROLES:{
+ A:{n:"A",s:"",fit:"",spare:["Re-check the problem statement against the evidence","Write answers for the UX questions in Q&A","Check the microcopy on every screen"]},
+ B:{n:"B",s:"",fit:"",spare:["Test the prototype yourself with the 3 tasks","Re-check the source of every number","Add one more competitor to the table"]},
+ C:{n:"C",s:"",fit:"",spare:["Check alignment, fonts and corner radius across the file","Add empty, error and loading states","Export screens for the deck"]},
+ D:{n:"D",s:"",fit:"",spare:["Rename layers, tidy pages, set the file cover","Check contrast and touch target sizes","Write the design library intro page"]},
+ E:{n:"E",s:"",fit:"",spare:["Redo the weakest slide","Design the cover and key visual","Match fonts and colors between the deck and Figma"]},
+ F:{n:"F",s:"",fit:"",spare:["Rehearse the opening and the closing (CTA)","Review the English of the whole deck","Write more hard Q&A questions"]},
+ G:{n:"G",s:"",fit:"",spare:["Back up all files locally","Note what the AI said and how it was checked, right in the M1 Progress Report","Record a 60–90 second demo video"]}
+},
+MS:{
+ C0:{t:"Check-in & opening",d:"Saturday 14/11 · 07:00–09:00"},M1:{t:"Milestone 1 · Earth · Understand the brief",d:"09:00–12:00 · submit by 12:00"},BR:{t:"Lunch break",d:"12:00–13:00"},
+ M2:{t:"Milestone 2 · Fire · Build the solution",d:"13:00–17:00 · submit by 17:00"},M3:{t:"Milestone 3 · Water · Test & refine",d:"17:00–19:00 · mentor scores SUS"},
+ M4:{t:"Milestone 4 · Air · Finalize & prepare",d:"19:00 Saturday – 08:00 Sunday"},M5:{t:"Final submission & pitch",d:"Sunday 15/11 · 08:00–14:00"}
+},
+ELM:{M1:[null,"Understand the brief"],M2:[null,"Build the solution"],M3:[null,"Test & refine"],M4:[null,"Finalize"]},
+MSB:[[null,null,null,"Check-in"],[null,null,null,"M1 Earth"],[null,null,null,"Lunch"],[null,null,null,"M2 Fire"],[null,null,null,"M3 Water"],[null,null,null,"M4 Air · overnight finish"],[null,null,null,"Submit, pitch, awards"]],
+DECK:[[null,"Cover: product name, team name"],[null,"User and context"],[null,"Business pain, competitors, market"],[null,"Problem statement"],[null,"UX method, references"],[null,"Opportunity and solution"],[null,"Key feature"],[null,"User flow"],[null,"Prototype"],[null,"Design library"],[null,"Test with the mentor"],[null,"Solution after refinement (with Figma link)"],[null,"Impact, metrics, feasibility"],[null,"Closing: every member's name and role"],["AP","Appendix, references"]],
+NIGHT:{
+ A:{w1:"Review the story logic with E; M4 checklist; write the 5-line handover",g1:"Story logic, M4 checklist",w2:"Read the handover; review the M4 checklist, settle open points",g2:"M4 checklist, open points"},
+ B:{w1:"Check the evidence, sources and Q&A answers; test links like a stranger",g1:"Evidence, sources, test links",w2:"Play a mock judge, including business Q&A; final check of numbers",g2:"Mock judge, check numbers"},
+ C:{w1:"Check file consistency: fonts, corner radius, icons; fix P1 bugs",g1:"File consistency, fix P1",w2:"Finalize the Figma file: cover, no stray layers",g2:"Finalize the Figma file"},
+ D:{w1:"Tidy the Figma file: layer names, view access; Library page",g1:"Tidy Figma, Library",w2:"Final tidy of the Figma file, link access",g2:"Tidy Figma, link access"},
+ E:{w1:"Final deck; export the PDF in 16:9, name it [Team]_[Project].pdf",g1:"Final deck, export PDF",w2:"Polish the weakest slide; check every page",g2:"Polish slides, check pages"},
+ F:{w1:"Read aloud with a timer, adjust to the latest slides",g1:"Read aloud, adjust script",w2:"Full 7-minute rehearsal 2 with whoever is awake as the audience",g2:"Rehearsal 2 (7′)"},
+ G:{w1:"Finish the prototype, video (if doing one); submission package",g1:"Prototype, video, package",w2:"Final prototype QA, deploy, back up",g2:"Prototype QA, backup"}
+
+},
+
+B:[
+{t:"Gather",d:"All 8 here before 06:45\nTeam photo",o:"All 8 present"},
+{t:"Check-in and kit",d:"Check in together (bonus tokens)\nCollect the kit, put on the event shirt, team photo\nTake our seats as the buddy directs",o:""},
+{t:"Opening, rules, receive the brief",d:"Listen to the opening and the rules\nReceive the brief, everyone photographs a copy",o:""},
+{t:"Read the brief",d:"Read the brief, underline keywords\nWhat is the first thing you think of?\nDecide: which type of brief? which element? which SDG?",o:""},
+{t:"Find the TA",d:"Find the Target Audience (TA)\nMap the TA to the keywords (e.g. small living spaces for young people, for older people)",o:""},
+{t:"Write problems",d:"Each person writes problems for every TA × keyword pair",o:""},
+{t:"Write solutions",d:"10 solutions for each problem\nDrop any problem with no solution",o:""},
+{t:"Filter and decide",d:"Drop what is not important\nChoose the problem and the solution direction",o:"Problem, TA, solution direction"},
+{t:"Parallel research",d:"Paste every piece of evidence into the M1 Progress Report with its source link. No interviews or surveys: use data and a persona built from the TA.",o:"≥ 15 pieces of sourced evidence",r:{
+ A:"Persona from the TA: needs, pain points, behavior",B:"Data on users and the problem, with sources; Business pain, TAM/SAM/SOM, who pays",C:"Analyze 3–5 competitors or alternatives",D:"Articles, forums, reviews by keyword",
+ E:"Existing solutions: iSTAR, patents, award-winning projects",F:"Striking numbers and quotes for the opening",G:"Exploration prompts; note how AI output was checked"}},
+{t:"Synthesis",d:"",o:"Problem statement, 3–5 insights"},
+{t:"Finish and submit M1 (aim for 11:30)",d:"Submit only when all 5 items are complete. Deadline 12:00, aim for 11:30.",o:"M1 submitted",r:{
+ A:"Check the problem statement, insights, all 5 items",B:"Write the research method part; Assemble the 5-item document",C:"Sketch the flow for the candidate solution",D:"Prepare the Flow and Library pages in Figma",
+ E:"Pick a product name and a visual direction",F:"",G:"Test the links and access, press submit"}},
+{t:"Choose the key feature",d:"Choose 1 feature (impact × feasibility × demo-ability)\nLock the main action and the success metric\nScope: 5–7 screens",o:"Key feature"},
+{t:"Assign M2 work",d:"Assign the M2 work\nSave files, take a break",o:""},
+{t:"Lunch break",d:"Eat 12:00–12:40, away from screens\n12:40 a 10-minute huddle for M2",o:""},
+{t:"Lock the M2 scope",d:"Confirm the key feature\nMain flow in 6–8 steps\nScreen list\nPick the wow moment for the demo",o:"Flow, screen list"},
+{t:"Build the base",d:"Hand-offs: E gives the identity to D at 13:30; A gives the journey to C at 13:40; D gives the library to C at 13:50.",o:"Journey, flow, library, prototype v1",r:{
+ A:"Journey map, flow steps",B:"User flow + 3 test tasks; Competitors, KPI, revenue model",C:"Wireframes, screens 1–4",D:"Design library (done by 13:50)",
+ E:"Name, logo, colors, fonts for D; deck skeleton",F:"Script v1; 5-minute talk for the mentor",G:"Prompt → prototype v1"}},
+{t:"Hi-fi and prepare for the mentor",d:"The mentor arrives around 14:30. If the organizers hand out AI data cards, B and G check which are made up.",o:"Hi-fi screens 1–8, 5-minute talk",r:{
+ A:"5-minute talk for the mentor",B:"3 questions for the mentor; Check numbers and the AI data cards",C:"Hi-fi screens 1–4",D:"Hi-fi screens 5–8 + states",
+ E:"Logo into the screens; master slides",F:"Rehearse the 5-minute talk with A",G:"Prototype v1 working, with a link for the mentor"}},
+{t:"Mentor session (20 minutes)",d:"A, B and F sit down with the mentor:\nA introduces the brief and the problem in 2 minutes\nF tells the story of the user and the solution\nB shows the data and research evidence\nEveryone else keeps working\nOne person writes down all of the mentor's feedback",o:"Mentor feedback"},
+{t:"Absorb the feedback",d:"Sort keep / change, update the scope\nNo new features",o:""},
+{t:"Polish hi-fi and the prototype",d:"Every screen must serve the main action.",o:"All screens, prototype v2",r:{
+ A:"Review microcopy; each screen serves the main action",B:"Wire the prototype interactions; test script; Impacts slide, risks, sources",C:"Finish every screen",D:"Final components, Library page",
+ E:"Deck: M1 content, slides 1–5",F:"Script v2; Q&A bank",G:"Prototype v2, public link, demo video (if doing one)"}},
+{t:"QA the whole flow",d:"Everyone runs the flow on laptop and phone, one task each\nA triages bugs P0, P1, P2\nFix P0 immediately",o:""},
+{t:"Submit M2 (aim for 16:30)",d:"Figma + Vibe Coding must cover all 4 items: key feature, flow, prototype, design library. Deadline 17:00.",o:"M2 submitted",r:{
+ A:"Confirm all 4 items",B:"Check the flow matches Figma; Check the description matches the metric",C:"Check the first and last screens",D:"Open view access on Figma",
+ E:"Capture the best screenshots for the deck",F:"Write 3 lines describing the key feature",G:"Press submit, test links in incognito"}},
+{t:"Prepare for the M3 test",d:"",o:"Test kit ready",r:{
+ A:"Assign test roles",B:"Test script, 3 tasks; Business questions for the mentor",C:"Fix the 3 worst bugs",D:"Check contrast, text size",
+ E:"Deck slides 6–9",F:"Opening words for the test",G:"Prototype on 2 devices, reset to the start"}},
+{t:"Lock the test groups",d:"Test group: A, B, F, G · Build group: C, D, E\nSpend tokens for extra minutes? (max +20)",o:""},
+{t:"Test with the mentor",d:"20 minutes by default (up to 40 with tokens). Test order follows the token board; when not our turn, work on our own tasks.",o:"Observation notes",r:{
+ A:"Test group: observe, log errors and quotes",B:"Test group: facilitate; numbers for Q&A",C:"Build group: polish the wow moment",D:"Build group: library, states, accessibility",
+ E:"Build group: deck 1–9",F:"Test group: keep time, note emotions",G:"Test group: run the prototype"}},
+{t:"Debrief and refine",d:"For each change write: Before, After, Why, Evidence.",o:"3–5 changes + before/after images",r:{
+ A:"Lead the debrief, lock 3–5 changes",B:"Update the flow; Update affected numbers",C:"Fix screens, capture before/after",D:"Update components",
+ E:"Testing and Refine slides",F:"Rewrite the story part",G:"Apply changes, redeploy, check the link"}},
+{t:"Dinner in shifts",d:"A, B, C, D eat 19:00–19:30\nE, F, G eat 19:30–20:00\nWhoever is not eating keeps fixing",o:""},
+{t:"Scope-freeze meeting",d:"Remaining work and its owners\nConfirm the sleep shifts\nNo new features after 22:00",o:""},
+{t:"Finalize the product",d:"A product we can demo without extra explanation.",o:"Near-final product, deck v1",r:{
+ A:"Review flow, copy, accessibility",B:"QA the prototype; Impacts, sources, re-check numbers",C:"Finish every screen, polish",D:"Final library, tidy Figma",
+ E:"Deck v1, all 20 slides, 16:9",F:"Script v3, rehearse once",G:"Final vibe-coded build, backup"}},
+{t:"Freeze and cross-review",d:"A leads the team through the product\nLog P0 and P1 bugs; assign the P0s",o:""},
+{t:"Fix P0 and polish the deck",d:"Last working hour before Shift 1 sleeps; hand over clearly to the next shift.",o:"P0 done, deck v2",r:{
+ A:"Fix UX P0s; Q&A answers",B:"Evidence for Q&A; Check sources, number notes",C:"Second polish pass, export images",D:"Final library, back up Figma",
+ E:"Polish deck slides 6–12",F:"Read the script aloud with a timer",G:"Final QA, deploy, backup"}},
+{t:"Night shift 1: Shift 2 works, Shift 1 sleeps",d:"Shift 1 ({S1}) sleeps 23:30–03:00. Shift 2 ({S2}) keeps working.",o:"Deck v3, bug-free product"},
+{t:"Shift handover",d:"A reads the 5-line handover\nShift 2 goes to sleep",o:""},
+{t:"Night shift 2: Shift 1 works, Shift 2 sleeps",d:"Shift 2 ({S2}) sleeps 03:30–06:30. Shift 1 ({S1}) only fixes the bugs on the list.",o:"Rehearsal 2, small bugs fixed"},
+{t:"Wake up and rehearsal 3",d:"At 06:45: the full 7-minute talk + 3-minute Q&A, the whole team as judges.",o:"Final feedback",r:{
+ A:"Judge; write down 3 fixes",B:"Judge: UX and research Q&A; Judge: business Q&A",C:"Judge: visuals on the slides",D:"Judge: open the deck like the presentation machine",
+ E:"Fix slides from the feedback",F:"Main presenter, 7 minutes",G:"Judge: AI and tech Q&A"}},
+{t:"Last fixes, prepare to submit",d:"Files ready by 08:00.",o:"Complete submission package",r:{
+ A:"Check the M4 checklist, file name format",B:"Open every link in incognito, check access; Re-check the appendix sources",C:"Finalize the Figma file",D:"Send Figma to the Space with the buddy",
+ E:"Export the PDF in 16:9, check each page",F:"Rehearse the opening, close and CTA",G:"Upload PDF and video to the organizers' Drive"}},
+{t:"Final submission",d:"H and A submit: Figma Space (ask the buddy), PDF in 16:9, video (if any)\nReopen every link after submitting",o:"Submitted"},
+{t:"Prep area",d:"Test the mic, slides and stage (time announced by the organizers)\nCheck the speaking order",o:""},
+{t:"Pitch (7 + 3 minutes Q&A)",d:"Speaking order is drawn at random. Q&A: UX, testing, business → A, B; AI → G; visuals → C, E.",o:"",r:{
+ A:"Support F; UX Q&A",B:"Research Q&A; Business and market Q&A",C:"Visuals and screens Q&A",D:"Hold the laptop, run the slides",
+ E:"Identity Q&A; photos",F:"Main presenter",G:"AI and tech Q&A; run the demo"}},
+{t:"Break",d:"",o:""},
+{t:"Awards ceremony",d:"Champion, Runner-up, Token Leader, Fan Favorite",o:""},
+{t:"Closing",d:"Group photos",o:""}
+],
+
+GP:[
+{t:"Check-in & receive the brief",sub:"",team:"Whole team\n\nCheck in together\nCollect the kit, team photo\nHear the rules, receive the brief"},
+{t:"M1 · Whole team: from brief to problem",sub:"",team:"Whole team together\n\n09:00 read the brief, underline keywords\n09:10 find the TA, map keywords\n09:20 write problems\n09:30 10 solutions per problem\n09:50 filter, choose problem and direction"},
+{t:"M1 · Parallel research",sub:"",r:{A:"Persona from the TA",B:"Data on users and the problem; Business pain, TAM/SAM/SOM",C:"3–5 competitors",D:"Articles, forums, reviews",E:"Existing solutions, patents",F:"Striking numbers and quotes",G:"Exploration prompts, AI Log"}},
+{t:"M1 · Synthesize & submit",sub:"",r:{A:"Problem statement, check 5 items",B:"Research method part; Assemble the 5-item Doc",C:"Sketch the flow",D:"Flow + Library pages",E:"Product name, mood",F:"",G:"Test links, submit M1"}},
+{t:"Choose the feature · Lunch",sub:"",team:"Whole team\n\n11:30 choose 1 feature\n11:50 assign M2 work\n12:00 lunch, rest"},
+{t:"M2 · Build the base",sub:"",r:{A:"Journey map, flow",B:"User flow, 3 test tasks; Competitors, KPI, revenue",C:"Wireframes, screens 1–4",D:"Design library (13:50)",E:"Name, logo, colors; deck skeleton",F:"Script v1",G:"Prototype v1"}},
+{t:"M2 · Hi-fi & mentor",sub:"",r:{A:"Meet the mentor at 14:30: introduce the brief in 2 minutes",B:"Meet the mentor: present the data and evidence; check the AI data cards",C:"Hi-fi screens 1–4",D:"Hi-fi screens 5–8",E:"Logo, master slides",F:"Meet the mentor: tell the product story",G:"Prototype v1 working, with a link for the mentor"}},
+{t:"M2 · Hi-fi, QA, submit",sub:"",r:{A:"Microcopy, quality",B:"Wire prototype, test script; Impacts, risks, sources",C:"Finish screens",D:"Final components, Library",E:"Deck: M1 content",F:"Script v2, Q&A",G:"Prototype v2, submit M2"}},
+{t:"Prepare for the test",sub:"",r:{A:"Assign test roles",B:"Test script; Business questions for the mentor",C:"Fix the 3 worst bugs",D:"Contrast, text size",E:"Deck slides 6–9",F:"Test opening words",G:"Prototype on 2 devices"}},
+{t:"M3 · Test & refine",sub:"",r:{A:"Observe; debrief",B:"Facilitate; Metrics, Q&A",C:"Fix screens",D:"Library, access",E:"Deck 1–9, Testing",F:"Keep time; rewrite the story",G:"Run the prototype"}},
+{t:"M4 · Finalize the product",sub:"",r:{A:"Flow, copy, accessibility",B:"QA the prototype; Impacts, sources, numbers",C:"Finish, polish",D:"Final library, tidy Figma",E:"Deck v1, 16:9",F:"Script v3",G:"Final vibe coding, backup"}},
+{t:"M4 · Freeze & fix P0",sub:"",r:{A:"UX P0; Q&A",B:"Evidence for Q&A; Check sources",C:"Second polish pass",D:"Final library, backup",E:"Polish deck",F:"Read aloud with a timer",G:"Final QA, backup"}},
+{t:"M4 · Night shift 1",sub:""},
+{t:"M4 · Night shift 2",sub:""},
+{t:"M4 · Rehearsal 3, prepare to submit",sub:"",r:{A:"Judge; M4 checklist",B:"Judge; test links; Check sources",C:"Finalize Figma",D:"Figma to the Space",E:"PDF in 16:9",F:"Main presenter",G:"PDF, video to Drive"}},
+{t:"Final submission, prep area",sub:"",team:"H and A submit\n\nFigma Space, PDF in 16:9, video\n\n08:30 test mic, slides, stage (time set by the organizers)"},
+{t:"Pitch · awards",sub:"",r:{A:"Support F; UX Q&A",B:"Research Q&A; Business Q&A",C:"Visuals Q&A",D:"Hold the laptop, run slides",E:"Identity Q&A",F:"Main presenter",G:"AI Q&A; demo"}}
+],
+
+STEPS:{
+ b9:[[null,null,"Each person reports their 3 key findings"],[null,null,"Cluster into 3–5 insights, drop what has no evidence"],[null,null,"Write the problem statement in 1 sentence: [User] needs [need] because [insight], but [barrier]"],[null,null,"Choose the solution direction and the reason"]],
+ b25:[[null,null,"Debrief"],[null,null,"Choose 3–5 changes"],[null,null,"Fix per the list"],[null,null,"Capture before/after images"]],
+ b34:[[null,null,"Wake up, change clothes"],[null,null,"Present 7 minutes with a timer"],[null,null,"3 minutes of Q&A, feedback"],[null,null,"Write down the 3 fixes"]]
+},
+
+PREP_DAYS:[
+ ["10/11 (Tuesday)",["Lock the 7 areas: Main, Backup, sleep shift (Roles & sleep shifts tab)","Set up the team chat, Drive folder, FigJam","Read the Booklet, Template & Rubric, Event Board","Install the tools (see below)"]],
+ ["11/11 (Wednesday)",["Build the template set, one owner per template","Write problems for your assigned element, 10 solutions for each problem","Study the first 2 topics"]],
+ ["12/11 (Thursday)",["Run M1 with a fake brief: read the brief → TA → problems → solutions → filter → 5-item document","Retro, fix the templates"]],
+ ["13/11 (Friday)",["Run a shortened M2: 1 feature → flow → 3 screens → prototype","Rehearse the pitch: 7 minutes + 3 minutes Q&A","Pack, charge batteries, back up; sleep before 22:30"]],
+ ["14/11 · 06:45",["Whole team present, in the event shirt, check in together"]]
+],
+
+TEMPLATES:[
+ ["M1 document (5 items)",null,"The 5 headings the organizers ask for: user and context, research method, evidence and insights, one-sentence problem statement, opportunity and solution."],
+ ["Evidence Log (Google Sheet)",null,"Columns: ID, type (data, quote, article, source), content, URL, date, collected by, reliability."],
+ ["AI Verification Log",null,"Columns: what AI said, prompt, tool, how we checked, result, kept or dropped."],
+ ["Team FigJam",null,"Areas: Brief, TA × keywords, Problems, Solutions, filter. A timer is ready."],
+ ["Persona + customer",null,"Two cards: the user and the paying customer. Needs, pain points, behavior."],
+ ["Journey map",null,"Stages, actions, emotions, pain points, opportunities. Two versions: current and with the solution."],
+ ["User flow",null,"Main path of 6–8 steps, 2 error cases."],
+ ["Figma starter file",null,"Pages: Cover, Research, Flow, Screens, Library. Tokens, 10–12 core components with states. Contrast ≥ 4.5:1."],
+ ["20-slide deck, 16:9",null,"Organizers' format: Cover, M1, M2, M3, M4, Impacts/Metrics, Closing (every member's name and role), Appendix."],
+ ["7-minute script skeleton",null,"Open with 3I, body (one sentence that sums up the idea), close (takeaway, paraphrase, CTA). ≤ 3 minutes research, ≥ 4 minutes solution."],
+ ["20-question Q&A bank",null,"How are we different? Risks? Why AI? Who pays? Where do the numbers come from? How do we measure success?"],
+ ["M3 test kit",null,"Opening, 3 tasks, 10-question SUS, observation sheet. SUS: odd questions (score − 1), even questions (5 − score), add up and × 2.5."],
+ ["Prompt pack",null,"Problem exploration, source summaries, challenging hypotheses, plausible sample data, vibe-coding prompts. Always ask for sources and what is unsure."],
+ ["Vibe-coding starter",null,"Stageshow, Figma Make, Claude Code logged in; a sample project deployed to a public link."],
+ ["Submission checklist",null,"File name [Team]_[Project], link access, correct Drive folder."]
+],
+
+FILES:{
+ figma:[
+  [null,"The team's main file. Pages: Cover, Research, Flow, Screens, Library. Hi-fi screens and the prototype live here."],
+  [null,"Design library: tokens (color, type, spacing, radius), 10–12 core components with states. Contrast ≥ 4.5:1."],
+  [null,"The M1 working board: Brief, TA × keywords, Problems, Solutions, filter. A timer is ready."],
+  [null,"20-slide deck, 16:9, in the organizers' format: Cover, M1, M2, M3, M4, Impacts/Metrics, Closing (every member's name and role), Appendix."]
+ ],
+ drive:[
+  [null,[[null,"Every working link, questions for the buddy, submission checklist for M1, M2, M4."]]],
+  [null,[[null,"The 5 items the organizers ask for. Sources pasted next to each point, plus a note on how AI output was checked."]]],
+  [null,[[null,"The 4 items the organizers ask for: key feature, user flow, prototype, design library. Plus mentor session notes and the M3 test script."]]],
+  [null,[[null,"7-minute script in the 3I format and 10 likely Q&A questions."]]]
+ ]
+},
+SETUP:[
+ "Claude (with Claude Code), ChatGPT and Gemini accounts: logged in on the laptop. The organizers only hand out the Figma account (3,000 credits) on the day.",
+ "Install Node and the Stageshow skill:  npx skills add benjitaylor/skills --skill stageshow  — try building one small demo first.",
+ "Try Figma Make and Claude Code: build a 1-screen prototype, deploy it to a public link, open it on your phone.",
+ "The shared Drive folder already has the structure: 01-M1, 02-M2, 03-M3, 04-M4-Final. Sample file name [Team]_[Project].",
+ "Download offline: templates, fonts, icons, illustrations, the team logo. Never rely on a single cloud link.",
+ "Pin in the team chat: the FigJam, Figma and Drive links, and this timeline page.",
+ "Phone hotspot as a backup, a multi-socket power strip, a power bank, mouse, headphones."
+],
+KNOW:[
+ ["The 5 W-H questions for problem discovery","Who has the problem, when, how often, what happens, how they cope now. Practice on any 3 news articles."],
+ ["User vs customer","The persona must show both the user and the payer. Practice drawing 2 cards in 10 minutes."],
+ ["TAM, SAM, SOM","Calculate bottom-up with concrete numbers and sources. Practice: estimate the market for an imaginary app."],
+ ["Business goal → KPI → bottleneck → causes","How to solve a business-problem brief (e.g. Bank X onboarding at 40%). Practice with 2 examples."],
+ ["Desk research and data","Find reliable sources, quote them, analyze competitors. Put the source next to every point in the document."],
+ ["Verifying AI output","Separate evidence from assumption. Cross-check with 2 tools and 1 original source."],
+ ["The 4 elements and the 17 Sustainable Development Goals (SDGs)","Memorize the 4 elements and link each to a few SDGs."],
+ ["Accessible design","Contrast ≥ 4.5:1, touch targets ≥ 44 px, plain language. Fits the Water element."],
+ ["Responsible AI","Hallucination, bias, energy use, privacy. Prepare 3 points to answer “why AI?”"],
+ ["Advanced Figma","Auto layout, variables, components with states, interactive prototypes."],
+ ["Presenting in English","3I opening, a one-sentence summary of the idea, a closing CTA. Practice Q&A in English."]
+],
+
+GUESS:[
+ [null,null,["Household waste and recycling","Food waste","Saving energy","Flood and climate adaptation","Sustainable farming, supply chains"]],
+ [null,null,["Mental health and burnout","People with disabilities, accessibility","Elderly care","Access to healthcare","Children and digital health"]],
+ [null,null,["AI transparency and ethics","Energy use of AI","Misinformation, deepfakes","Human–AI collaboration at work","AI in education"]],
+ [null,null,["Access to knowledge, language barriers","Learning in remote areas","Digital skills for older adults","Civic information that is easy to understand","Open tools for communities"]]
+],
+PERSONAL:[
+ ["Guess the brief (one element each)","A, B: Earth\nC, D: Water\nE, F: Fire\nG: Air\n\nFind the TA, map keywords, write problems, 10 solutions for each problem.\nPaste into FigJam."],
+ ["Read existing solutions","3 projects: SIHUB/iSTAR, VnExpress Science Initiatives, Google Patents\n\n5 lines per project: problem, evidence, solution, gap."],
+ ["Practice for your own area","A: persona and journey in 20 minutes\nB: find sourced data, sample TAM/SAM/SOM\nC, D: quickly build 3 screens + a library\nE: deck skeleton in 16:9\nF: practice telling the 7 minutes in English\nG: vibe code one flow from a prompt"],
+ ["Body and mind","Sleep well from tonight\nDrink water, eat on time\nTell the buddy about allergies or health conditions"]
+],
+GEAR:[
+ "Laptop, charger, mouse, headphones, multi-socket power strip, power bank, phone cable",
+ "Event shirt (the organizers give 1), clothes for the night and Sunday, a light jacket (the room is cold)",
+ "Personal hygiene items, towel, wet wipes (there are no showers), period products if needed",
+ "Pillow, eye mask, earplugs (a pillow is allowed, a tent is not)",
+ "Water bottle, snacks that suit you, personal medicine",
+ "ID/registration papers. Never leave the competition area: leaving gets the whole team disqualified"
+],
+SUB:[
+ [null,null,"12:00 (aim for 11:30)","One document link, view access open to the organizers and mentors","Understanding the problem · Persona and competitors",["User and context (which product or situation, for whom)","Research method (how we gathered information)","Findings and business insights: traceable evidence (data, quotes, screenshots, source links)","Problem statement: one sentence on the most important problem","Opportunity and solution: which problem, which direction, why"]],
+ [null,null,"17:00 (aim for 16:30)","Figma link + Vibe Coding link, together answering all 4 items","UX and flow · UI quality · AI application",["Key feature (exactly 1 feature)","User flow of the main action, start to finish","Prototype (clickable link)","Short intro to the design library / style guide"]],
+ [null,null,"17:00–19:00 (by turn)","Interview with the mentor, the mentor scores SUS","User testing and refinement",["Record: task, success, confusion, quotes","Choose 3–5 changes","For each change write: Before, After, Why, Evidence"]],
+ [null,null,"08:00–08:30 Sunday (files ready by 08:00)","Figma Space + PDF deck + video (if any) to Drive","Slides and pitch · Q&A",["Complete the whole design","Deck ≤ 20 slides, 16:9, ≥ 4 minutes at the end on the solution","File name [Team name]_[Project name]","Figma Space sent with the buddy","Reopen every link after submitting"]]
+],
+RUBRIC:[
+ ["Problem Thinking (insight)","Persona and competitor research; understanding the problem","Traceable evidence, insights backed by numbers, not just opinions."],
+ ["Solution Design (innovation)","Originality and innovation; business adaptability and scalability","Who pays, market size, advantage over competitors, what if we remove AI."],
+ ["UX Design","UX logic and user flow; user testing and revamp","A tight flow, test results, and changes based on evidence."],
+ ["UI Design","UI quality; visual quality","A consistent library, good contrast, one “wow moment”."],
+ ["AI Application","AI-friendly tools; AI verification logic","Write in the document: what AI said, how we checked, kept or dropped. AI is a teammate, not the leader."],
+ ["Presentation & Q&A","Slides and delivery; answering Q&A","7-minute pitch + 3-minute Q&A. Decide in advance who answers what."]
+]
+};
+
+/* ---------- apply a language to the data ---------- */
+function merge(t,s){
+  for(const k in s){
+    const v=s[k];
+    if(v===null||v===undefined)continue;
+    if(typeof v==="object"&&t[k]!==undefined&&t[k]!==null&&typeof t[k]==="object")merge(t[k],v);
+    else t[k]=v;
+  }
+}
+const liveData=()=>({FILES,ROLES,MS,ELM,MSB,DECK,NIGHT,B,GP,STEPS,PREP_DAYS,TEMPLATES,SETUP,KNOW,GUESS,PERSONAL,GEAR,SUB,RUBRIC});
+const VI_SNAP=JSON.stringify({FILES,ROLES,MS,ELM,MSB,DECK,NIGHT,STEPS,PREP_DAYS,TEMPLATES,SETUP,KNOW,GUESS,PERSONAL,GEAR,SUB,RUBRIC,
+  B:B.map(b=>({t:b.t,d:b.d,o:b.o,r:b.r})),GP:GP.map(p=>({t:p.t,sub:p.sub,team:p.team,r:p.r}))});
+function applyNight(){
+  [31,33].forEach(i=>{B[i].sl={}});[12,13].forEach(i=>{GP[i].sl={};GP[i].r=GP[i].r||{}});
+  ["A","B","C","D","E","F","G"].forEach(k=>{
+    const s1=shiftOf(k)===1;
+    B[31].r=B[31].r||{};B[33].r=B[33].r||{};
+    B[31].r[k]=s1?tt("sl1"):NIGHT[k].w1;B[31].sl[k]=s1;
+    B[33].r[k]=s1?NIGHT[k].w2:tt("sl2");B[33].sl[k]=!s1;
+    GP[12].r[k]=s1?tt("sleepShort"):NIGHT[k].g1;GP[12].sl[k]=s1;
+    GP[13].r[k]=s1?NIGHT[k].g2:tt("sleepShort");GP[13].sl[k]=!s1;
+  });
+}
+function applyData(){
+  merge(liveData(),JSON.parse(VI_SNAP));
+  if(lang==="en")merge(liveData(),EN);
+  applyNight();
+}
+
+/* ---------- state ---------- */
+const RK=Object.keys(ROLES);
+const rlabel=k=>nm(k)?nm(k)+" · "+k:k;
+let roleFilter=store.role||"ALL";
+let dayView=store.day||(Date.now()>=Date.parse("2026-11-15T00:00:00+07:00")?15:14);
+const T0=Date.parse("2026-11-14T00:00:00+07:00");
+const nowMin=()=>(Date.now()-T0)/60000;
+const open={};
+(function initOpen(){
+  const n=nowMin();const live=B.find(b=>n>=b.abs&&n<b.absEnd);
+  const first=B.find(b=>b.day===dayView);
+  if(live)open[live.id]=true; else if(first)open[first.id]=true;
+})();
+const firstSentence=t=>{const i=t.indexOf(". ");return i>0?t.slice(0,i+1):t};
+const ONE=n=>n>=60?(Math.floor(n/60)+" "+tt("hr")+(n%60?(" "+n%60+" "+tt("mn")):"")):n+" "+tt("mn");
+const ONEG=n=>n>=60?(Math.floor(n/60)+" "+tt("hr")+(n%60?" "+n%60+"′":"")):n+"′";
+
+/* ---------- Gantt (by phase) ---------- */
+const G0=405,G1=2280,GZ=[0.78,1,1.3],GL=176;
+const gz=()=>store.gz==null?1:store.gz;
+const gcol=ms=>"var(--"+MCOL[ms]+")";
+const pct=m=>((m-G0)/(G1-G0)*100).toFixed(2)+"%";
+function ganttHTML(){
+  const k=GZ[gz()];
+  const cols=GP.map(p=>Math.round((124+Math.min(p.z-p.a,300)*0.3)*k));
+  const dim=r=>roleFilter!=="ALL"&&roleFilter!==r?" dim":"";
+  let h='<div class="gwrap"><div class="gtop"><h2>'+esc(tt("gTitle"))+'</h2><div class="gbtns">'
+   +'<button data-z="-1" aria-label="'+esc(tt("zoomOut"))+'">−</button><button data-z="1" aria-label="'+esc(tt("zoomIn"))+'">+</button>'
+   +'<button data-wide="1">'+esc(store.wide?tt("narrow"):tt("widen"))+'</button></div></div>';
+  h+='<div class="gmini" aria-label="'+esc(tt("gMini"))+'"><div class="gmrow">'
+   +MSB.map(m=>'<span class="gmseg" style="left:'+pct(m[1])+';width:calc('+((m[2]-m[1])/(G1-G0)*100).toFixed(2)+'% - 2px);background:'+gcol(m[0])+'">'+esc(m[3])+'</span>').join("")+'</div>'
+   +'<div class="gmlane"><span class="gmseg sl" style="left:'+pct(1410)+';width:'+((1620-1410)/(G1-G0)*100).toFixed(2)+'%">'+esc(tt("shiftLbl")[0]+" · "+shiftNames(1).replace(/, /g," "))+'</span><span class="gmseg sl" style="left:'+pct(1650)+';width:'+((1830-1650)/(G1-G0)*100).toFixed(2)+'%">'+esc(tt("shiftLbl")[1]+" · "+shiftNames(2).replace(/, /g," "))+'</span></div>'
+   +'<div class="gmticks">'+[540,720,900,1080,1260,1440,1620,1800,1980,2160].map(m=>'<span style="left:'+pct(m)+'">'+p2(Math.floor(m/60)%24)+':00</span>').join("")+'</div>'
+   +[720,1020,1920,1980].map((m,i)=>'<i class="gmdl" style="left:'+pct(m)+'" title="'+esc(tt("dl")[i])+'"></i>').join("")
+   +'<i class="gmnow" id="gnow" style="display:none"></i></div>';
+  h+='<p class="gnote">'+esc(tt("gNote"))+'</p>';
+  h+='<div class="gscroll" id="gscroll"><div class="gmat" style="grid-template-columns:'+GL+'px '+cols.map(c=>c+"px").join(" ")+'">';
+  h+='<div class="gcorner">14/11 → 15/11</div>';
+  GP.forEach((p,i)=>{
+    h+='<div class="gph" data-a="'+p.a+'" data-e="'+p.z+'" style="grid-column:'+(i+2)+';grid-row:1"><span class="gpnow" hidden>'+esc(tt("gNow"))+'</span><b style="color:'+gcol(p.ms)+'">'+p.s+'–'+p.e+'</b><strong>'+esc(p.t)+'</strong><small>'+ONEG(p.z-p.a)+' · '+esc(nt(p.sub))+'</small></div>';
+  });
+  RK.forEach((r,j)=>{
+    h+='<button class="glab'+dim(r)+'" data-r="'+r+'" style="grid-column:1;grid-row:'+(j+2)+'" title="'+esc(rlabel(r))+'"><b>'+r+'</b><span class="gln"><strong>'+esc(nm(r)||tt("areaWord")+" "+r)+'</strong></span></button>';
+  });
+  GP.forEach((p,i)=>{
+    const b0=B[p.bl[0]],c=gcol(p.ms);
+    if(p.team){
+      h+='<button class="gc gteam" data-b="'+b0.id+'" data-day="'+b0.day+'" style="grid-column:'+(i+2)+';grid-row:2 / span 7;--c:'+c+'">'+esc(nt(p.team)).replace(/\n/g,"<br>")+'</button>';
+    }else{
+      RK.forEach((r,j)=>{
+        const sl=!!(p.sl&&p.sl[r]);
+        const full=p.bl.filter(x=>B[x].r).map(x=>B[x].s+"  "+B[x].r[r]).join("\n");
+        h+='<button class="gc'+(sl?" sl":"")+dim(r)+'" data-b="'+b0.id+'" data-day="'+b0.day+'" style="grid-column:'+(i+2)+';grid-row:'+(j+2)+';--c:'+c+'" title="'+esc(rlabel(r)+" · "+nt(full))+'">'+esc(nt(p.r[r]))+'</button>';
+      });
+    }
+  });
+  h+='</div></div>'
+   +'<div class="gleg"><span><i style="background:var(--earth)"></i>M1 Earth</span><span><i style="background:var(--fire)"></i>M2 Fire</span><span><i style="background:var(--water)"></i>M3 Water</span><span><i style="background:var(--air)"></i>M4 Air</span><span><i class="sl"></i>'+esc(tt("lSleep"))+'</span><span>'+esc(tt("lTeam"))+'</span><span>'+esc(tt("lHelp"))+'</span></div></div>';
+  return h;
+}
+
+/* ---------- time blocks ---------- */
+function stepsHTML(b){
+  const st=STEPS[b.id];if(!st)return "";
+  const base=(b.day-14)*1440,c=DOT[b.ms],m=t=>base+toMin(t);
+  let bar="",li="";
+  st.forEach((x,i)=>{
+    const l=(m(x[0])-b.abs)/b.dur*100,w=(m(x[1])-m(x[0]))/b.dur*100;
+    bar+='<span style="left:'+l.toFixed(2)+'%;width:calc('+w.toFixed(2)+'% - 2px);opacity:'+(i%2?".62":"1")+'">'+(i+1)+'</span>';
+    li+='<li><span class="stn">'+(i+1)+'</span><span class="stt">'+x[0]+'–'+x[1]+' · '+(m(x[1])-m(x[0]))+'′</span><span class="stx">'+esc(nt(x[2]))+'</span></li>';
+  });
+  return '<div class="sub">'+esc(tt("breakdown"))+'</div><div class="sbar" style="--c:'+c+'">'+bar+'</div><ol class="steps" style="--c:'+c+'">'+li+'</ol>';
+}
+
+function renderTimeline(){
+  const gs0=$("#gscroll"),sl0=gs0?gs0.scrollLeft:null;
+  let h=ganttHTML()+'<div class="ctl"><div class="daytoggle" role="group" aria-label="'+esc(tt("chooseDay"))+'">'
+   +'<button data-day="14" aria-pressed="'+(dayView===14)+'">'+esc(tt("day1"))+'<small>'+esc(tt("day1s"))+'</small></button>'
+   +'<button data-day="15" aria-pressed="'+(dayView===15)+'">'+esc(tt("day2"))+'<small>'+esc(tt("day2s"))+'</small></button></div>'
+   +'<div class="filters" role="group" aria-label="'+esc(tt("filterAria"))+'"><span class="lbl">'+esc(tt("viewBy"))+'</span>'
+   +'<button class="chip" data-r="ALL" aria-pressed="'+(roleFilter==="ALL")+'">'+esc(tt("whole"))+'</button>'
+   +RK.map(k=>'<button class="chip" data-r="'+k+'" aria-pressed="'+(roleFilter===k)+'" title="'+esc(rlabel(k))+'">'+esc(rlabel(k))+'</button>').join("")
+   +'<button class="chip ghost" data-x="open">'+esc(tt("openAll"))+'</button><button class="chip ghost" style="margin-left:0" data-x="close">'+esc(tt("closeAll"))+'</button></div></div>';
+  h+='<div class="note">'+esc(tt("note1"))+'</div>';
+  h+='<div class="tl">';
+  B.filter(b=>b.day===dayView).forEach(b=>{
+    const el=ELM[b.ms];
+    let items="";
+    if(b.r){
+      const keys=roleFilter==="ALL"?RK:[roleFilter];
+      items=keys.filter(k=>b.r[k]).map(k=>{
+        const id=b.id+k,done=!!(store.t&&store.t[id]),sl=!!(b.sl&&b.sl[k]);
+        return '<div class="cell'+(done?" done":"")+(sl?" sleep":"")+'"><label><input type="checkbox" data-id="'+id+'"'+(done?" checked":"")+' aria-label="'+esc(tt("done")+": "+rlabel(k))+'"><span class="rl">'+esc(rlabel(k))+'</span><span class="tx">'+esc(nt(b.r[k]))+'</span></label></div>';
+      }).join("");
+    }else{
+      items=(b.d||"").split("\n").filter(Boolean).map((line,li)=>{
+        const id=b.id+"ALL"+li,done=!!(store.t&&store.t[id]);
+        return '<div class="cell one'+(done?" done":"")+'"><label><input type="checkbox" data-id="'+id+'"'+(done?" checked":"")+' aria-label="'+esc(tt("done"))+'"><span class="tx">'+esc(nt(line))+'</span></label></div>';
+      }).join("");
+    }
+    const isOpen=!!open[b.id];
+    const hasBody=!!(items||STEPS[b.id]||b.o);
+    h+='<article class="blk" id="'+b.id+'" data-a="'+b.abs+'" data-e="'+b.absEnd+'"><span class="dot" style="border-color:'+DOT[b.ms]+'"></span><div class="cardb">'
+     +'<div class="t1"><span class="rng">'+b.s+'–'+b.e+'</span><span class="dur">'+ONE(b.dur)+'</span><span class="tag" hidden>'+esc(tt("liveTag"))+'</span></div>'
+     +'<h3 class="ttl">'+(el?'<span class="m" style="color:var(--'+el[2]+')">'+el[3]+':</span>':'')+esc(b.t)+'</h3>'
+     +(el?'<span class="elp" style="background:var(--'+el[2]+'-t);color:var(--'+el[2]+')">'+el[0]+' · '+el[1]+'</span>':'')
+     +(b.r&&b.d?'<p class="desc">'+esc(nt(b.d))+'</p>':'')
+     +(hasBody?'<button class="more" data-b="'+b.id+'" aria-expanded="'+isOpen+'">'+esc(isOpen?tt("collapse"):tt("showTasks"))+'</button>'
+     +'<div class="body"'+(isOpen?"":" hidden")+'>'+stepsHTML(b)+(items?'<div class="sub">'+esc(tt("tasks"))+'</div><div class="todo">'+items+'</div>':'')
+     +(b.o?'<div class="out"><span class="st">★</span><div><b>'+esc(tt("output"))+'</b><span>'+esc(nt(b.o))+'</span></div></div>':'')
+     +'</div>':'')
+     +'</div></article>';
+  });
+  h+='</div>';
+  $("#tab-timeline").innerHTML=h;
+  $("#layout").classList.toggle("wide",!!store.wide);
+  const gs=$("#gscroll");
+  if(gs&&sl0!==null)gs.scrollLeft=sl0;
+  tick();
+  if(gs&&sl0===null){const pn=gs.querySelector(".gph.pnow");gs.scrollLeft=pn?Math.max(0,pn.offsetLeft-GL-24):0}
+}
+$("#tab-timeline").addEventListener("click",e=>{
+  const gb=e.target.closest(".gc");
+  if(gb&&gb.dataset.b){
+    dayView=+gb.dataset.day;store.day=dayView;open[gb.dataset.b]=true;save();renderTimeline();
+    const el=document.getElementById(gb.dataset.b);
+    if(el){el.scrollIntoView({block:"center"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1800)}
+    return;
+  }
+  const zb=e.target.closest("[data-z]");
+  if(zb){store.gz=Math.min(2,Math.max(0,gz()+ +zb.dataset.z));save();renderTimeline();return}
+  const wb=e.target.closest("[data-wide]");
+  if(wb){store.wide=!store.wide;save();renderTimeline();return}
+  const d=e.target.closest("[data-day]");
+  if(d){dayView=+d.dataset.day;store.day=dayView;save();renderTimeline();return}
+  const c=e.target.closest("[data-r]");
+  if(c){roleFilter=c.dataset.r;store.role=roleFilter;save();renderTimeline();return}
+  const x=e.target.closest("[data-x]");
+  if(x){B.filter(b=>b.day===dayView).forEach(b=>{open[b.id]=(x.dataset.x==="open")});renderTimeline();return}
+  const m=e.target.closest(".more");
+  if(m){
+    const id=m.dataset.b;open[id]=!open[id];
+    m.setAttribute("aria-expanded",open[id]);
+    m.textContent=open[id]?tt("collapse"):tt("showTasks");
+    m.parentElement.querySelector(".body").hidden=!open[id];
+  }
+});
+$("#tab-timeline").addEventListener("change",e=>{
+  const i=e.target.closest("input[data-id]");
+  if(i){store.t=store.t||{};store.t[i.dataset.id]=i.checked;save();i.closest(".cell").classList.toggle("done",i.checked);}
+});
+
+/* ---------- clock ---------- */
+const MARKS=[Date.parse("2026-11-14T06:45:00+07:00"),Date.parse("2026-11-15T08:00:00+07:00"),Date.parse("2026-11-15T14:00:00+07:00")];
+function tick(){
+  const n=nowMin();
+  const gn=$("#gnow");
+  if(gn){
+    if(n>=G0&&n<=G1){gn.style.display="block";gn.style.left=((n-G0)/(G1-G0)*100)+"%"}
+    else gn.style.display="none";
+  }
+  document.querySelectorAll(".gph").forEach(el=>{
+    const on=n>=+el.dataset.a&&n<+el.dataset.e;
+    el.classList.toggle("pnow",on);
+    el.querySelector(".gpnow").hidden=!on;
+  });
+  document.querySelectorAll("#tab-timeline .blk").forEach(el=>{
+    const on=n>=+el.dataset.a&&n<+el.dataset.e;
+    el.classList.toggle("live",on);
+    el.querySelector(".tag").hidden=!on;
+  });
+  const mi=MARKS.findIndex(m=>m>Date.now());
+  const L=$("#cLbl"),D=$("#cDigits"),N=$("#cNow");
+  if(mi<0){L.textContent=tt("ended");D.innerHTML="";N.hidden=true;return}
+  const s=Math.max(0,Math.floor((MARKS[mi]-Date.now())/1000));
+  const dd=Math.floor(s/86400),hh=Math.floor(s%86400/3600),mm=Math.floor(s%3600/60),ss=s%60;
+  L.textContent=tt("mk")[mi];
+  const u=tt("units");
+  const cell=(v,l)=>'<div><b>'+p2(v)+'</b><i>'+l+'</i></div>',c='<span class="c">:</span>';
+  D.innerHTML=cell(dd,u[0])+c+cell(hh,u[1])+c+cell(mm,u[2])+c+cell(ss,u[3]);
+  const live=B.find(b=>n>=b.abs&&n<b.absEnd);
+  if(live){
+    const nx=B.find(b=>b.abs>=live.absEnd);
+    N.hidden=false;
+    N.innerHTML='<b>'+esc(tt("nowLive"))+' · '+live.s+'–'+live.e+'</b>'+esc(live.t)+(nx?'<br><span style="opacity:.75">'+esc(tt("nextUp"))+': '+nx.s+' '+esc(nx.t)+'</span>':'');
+  }else N.hidden=true;
+}
+setInterval(tick,1000);
+
+/* ---------- Before the competition ---------- */
+function prepHTML(){
+  const ck=(id,t)=>'<li class="'+(store.p&&store.p[id]?"done":"")+'"><label><input type="checkbox" data-p="'+id+'"'+(store.p&&store.p[id]?" checked":"")+'><span>'+t+'</span></label></li>';
+  const tc=tt("pTplCols");
+  let h='<div class="sec-h"><h2>'+esc(tt("pTitle"))+'</h2><p>'+esc(tt("pIntro"))+'</p></div>';
+  h+='<div class="warn">'+tt("pWarn")+'</div>';
+  h+='<h2>'+esc(tt("pTpl"))+'</h2>';
+  h+='<h3 class="grp">'+esc(tt("pFigma").replace("{n}",FILES.figma.length))+' <a class="flink" href="'+FILE_LINKS.figma+'" target="_blank" rel="noopener">'+esc(tt("pOpen"))+'</a></h3><div class="cards">'+FILES.figma.map(x=>'<div class="card"><h3>'+esc(x[0])+'</h3><p class="sub">'+esc(x[1])+'</p></div>').join("")+'</div>';
+  h+='<h3 class="grp">'+esc(tt("pDrive").replace("{n}",FILES.drive.length))+' <a class="flink" href="'+FILE_LINKS.drive+'" target="_blank" rel="noopener">'+esc(tt("pOpen"))+'</a></h3><div class="cards">'+FILES.drive.map(d=>'<div class="card"><h3>'+esc(d[0])+'</h3><ul class="fl">'+d[1].map(x=>'<li><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></li>').join("")+'</ul></div>').join("")+'</div>';
+  h+='<h2>'+esc(tt("pSetup"))+'</h2><div class="card"><ul class="ck">'+SETUP.map((x,i)=>ck("s"+i,esc(x))).join("")+'</ul></div>';
+  h+='<h2>'+esc(tt("pKnow"))+'</h2><div class="cards">'+KNOW.map((k,i)=>'<div class="card"><h3>'+esc(k[0])+'</h3><p class="sub">'+esc(nt(k[1]))+'</p><ul class="ck">'+ck("k"+i,esc(tt("pKnowDone")))+'</ul></div>').join("")+'</div>';
+  h+='<h2>'+esc(tt("pGuess"))+'</h2><p class="sub" style="color:var(--muted);max-width:70ch">'+esc(tt("pGuessNote"))+'</p><div class="cards">'+GUESS.map(g=>'<div class="card"><span class="pill '+g[1]+'">'+g[0]+'</span><ul>'+g[2].map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>').join("")+'</div>';
+  h+='<h2>'+esc(tt("pPersonal"))+'</h2><div class="cards">'+PERSONAL.map((p,i)=>'<div class="card"><h3>'+esc(p[0])+'</h3><p class="sub">'+esc(nt(p[1])).replace(/\n/g,"<br>")+'</p><ul class="ck">'+ck("v"+i,esc(tt("pDone")))+'</ul></div>').join("")+'</div>';
+  h+='<h2>'+esc(tt("pGear"))+'</h2><div class="card"><ul class="ck">'+GEAR.map((x,i)=>ck("g"+i,esc(x))).join("")+'</ul></div>';
+  return h;
+}
+
+/* ---------- Roles & sleep shifts ---------- */
+function rolesWarn(){
+  const msgs=[],fmt=(s,o)=>s.replace(/\{(\w+)\}/g,(m,k)=>o[k]);
+  const mains={};
+  RK.forEach(k=>{const n=nm(k);if(n)(mains[n]=mains[n]||[]).push(k)});
+  const noMain=RK.filter(k=>!nm(k)).length,noBack=RK.filter(k=>!nm2(k)).length;
+  if(!Object.keys(mains).length&&!RK.some(k=>nm2(k)))return '<b>'+esc(tt("wTitle"))+':</b> '+esc(tt("wNone"));
+  Object.keys(mains).forEach(n=>{
+    const ks=mains[n];
+    if(ks.length>2)msgs.push(fmt(tt("wOver"),{name:n,n:ks.length}));
+    if(new Set(ks.map(shiftOf)).size>1)msgs.push(fmt(tt("wBoth"),{name:n}));
+  });
+  RK.forEach(k=>{
+    const b=nm2(k);if(!b)return;
+    if(b===nm(k)){msgs.push(fmt(tt("wSame"),{area:k}));return}
+    const theirs=mains[b];
+    if(theirs&&theirs.some(x=>shiftOf(x)===shiftOf(k)))msgs.push(fmt(tt("wBackShift"),{area:k}));
+  });
+  if(noMain)msgs.push(fmt(tt("wUnassigned"),{n:noMain}));
+  if(noBack)msgs.push(fmt(tt("wNoBackup"),{n:noBack}));
+  return '<b>'+esc(tt("wTitle"))+':</b> '+(msgs.length?'<ul style="margin:6px 0 0;padding-left:18px">'+msgs.map(m=>'<li>'+esc(m)+'</li>').join("")+'</ul>':esc(tt("wOk")));
+}
+function updateWarn(){const w=$("#rwarn");if(w)w.innerHTML=rolesWarn()}
+function rolesHTML(){
+  const c=tt("rCols"),so=tt("rShiftOpt");
+  let h='<div class="sec-h"><h2>'+esc(tt("rTitle"))+'</h2><p>'+esc(tt("rIntro"))+'</p></div>';
+  h+='<div class="warn" id="rwarn">'+rolesWarn()+'</div>';
+  h+='<div class="tbl"><table><thead><tr>'+c.map(x=>'<th>'+esc(x)+'</th>').join("")+'</tr></thead><tbody>'
+   +RK.map(k=>'<tr><td><b data-rk="'+k+'">'+esc(rlabel(k))+'</b></td>'
+   +'<td><input class="own" data-k="'+k+'" placeholder="'+esc(tt("rMainPh"))+'" value="'+esc((store.own&&store.own[k])||"")+'"></td>'
+   +'<td><input class="own2" data-k="'+k+'" placeholder="'+esc(tt("rBackPh"))+'" value="'+esc((store.own2&&store.own2[k])||"")+'"></td>'
+   +'<td><select class="shiftsel" data-k="'+k+'"><option value="1"'+(shiftOf(k)===1?" selected":"")+'>'+esc(so[0])+'</option><option value="2"'+(shiftOf(k)===2?" selected":"")+'>'+esc(so[1])+'</option></select></td></tr>').join("")+'</tbody></table></div>';
+  h+='<h2>'+esc(tt("rSpareT"))+'</h2><div class="cards">'+RK.map(k=>'<div class="card"><h3 data-rk="'+k+'">'+esc(rlabel(k))+'</h3><ul>'+ROLES[k].spare.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>').join("")+'</div>';
+  return h;
+}
+
+/* ---------- Submission & scoring ---------- */
+function subHTML(){
+  const ck=(id,t)=>'<li class="'+(store.p&&store.p[id]?"done":"")+'"><label><input type="checkbox" data-p="'+id+'"'+(store.p&&store.p[id]?" checked":"")+'><span>'+t+'</span></label></li>';
+  const rc=tt("sRubCols"),dc=tt("sDeckCols");
+  let h='<div class="sec-h"><h2>'+esc(tt("sTitle"))+'</h2><p>'+esc(tt("sIntro"))+'</p></div>';
+  h+='<div class="cards">'+SUB.map(s=>'<div class="card"><span class="pill '+s[1]+'">'+s[0]+'</span><h3>'+esc(tt("sDeadline")+s[2])+'</h3><p class="sub">'+esc(s[3])+'</p><p class="sub">'+esc(tt("sScored")+s[4])+'</p><ul class="ck">'+s[5].map((x,i)=>ck("n"+s[0]+i,esc(x))).join("")+'</ul></div>').join("")+'</div>';
+  h+='<h2>'+esc(tt("sRubT"))+'</h2><p class="sub" style="color:var(--muted);max-width:70ch">'+esc(tt("sRubIntro"))+'</p>';
+  h+='<div class="tbl"><table><thead><tr><th>'+esc(rc[0])+'</th><th>'+esc(rc[1])+'</th><th>'+esc(rc[2])+'</th></tr></thead><tbody>'+RUBRIC.map(r=>'<tr><td><b>'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>').join("")+'</tbody></table></div>';
+  h+='<h2>'+esc(tt("sDeckT"))+'</h2><div class="tbl"><table><thead><tr><th>'+esc(dc[0])+'</th><th>'+esc(dc[1])+'</th><th>'+esc(dc[2])+'</th></tr></thead><tbody>'
+  +DECK.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>').join("")
+  +'</tbody></table></div>';
+  return h;
+}
+
+/* ---------- tabs ---------- */
+const TABS=["timeline","chuan-bi","vai-ca","nop-bai"];
+let curTab="timeline",rolesDirty=false;
+function renderTab(t){
+  if(t==="timeline")renderTimeline();
+  else if(t==="chuan-bi")$("#tab-chuan-bi").innerHTML=prepHTML();
+  else if(t==="vai-ca"){$("#tab-vai-ca").innerHTML=rolesHTML();rolesDirty=false}
+  else if(t==="nop-bai")$("#tab-nop-bai").innerHTML=subHTML();
+}
+function show(t){
+  if(!TABS.includes(t))t="timeline";
+  curTab=t;
+  document.querySelectorAll(".tab").forEach(s=>s.hidden=(s.id!=="tab-"+t));
+  document.getElementById("layout").classList.toggle("full",t!=="timeline");
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t));
+  if(t!=="timeline"&&(!$("#tab-"+t).innerHTML||(t==="vai-ca"&&rolesDirty)))renderTab(t);
+}
+function applyStatic(){
+  document.title=tt("pageTitle");
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i]").forEach(el=>{el.textContent=tt(el.dataset.i)});
+  $("#tabs").setAttribute("aria-label",tt("tabsAria"));
+  $("#legend").innerHTML='<h3>'+esc(tt("legTitle"))+'</h3>'+tt("leg").map(l=>'<div><i style="border-color:var(--'+l[2]+')"></i>'+esc(l[0])+'<span>'+esc(l[1])+'</span></div>').join("");
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
+}
+function setLang(l){
+  lang=l;store.lang=l;save();
+  applyData();applyStatic();
+  TABS.slice(1).forEach(t=>{$("#tab-"+t).innerHTML=""});
+  renderTimeline();
+  show(curTab);
+}
+document.querySelector(".lang").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(b&&b.dataset.lang!==lang)setLang(b.dataset.lang);
+});
+document.querySelector("nav.tabs").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  location.hash=b.dataset.t;
+});
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+document.addEventListener("change",e=>{
+  const p=e.target.closest("input[data-p]");
+  if(p){store.p=store.p||{};store.p[p.dataset.p]=p.checked;save();p.closest("li").classList.toggle("done",p.checked);return}
+  const s=e.target.closest("select.shiftsel");
+  if(s){
+    store.shift=store.shift||{};store.shift[s.dataset.k]=+s.value;save();
+    applyNight();updateWarn();renderTimeline();
+    document.querySelectorAll("[data-rk]").forEach(el=>{el.textContent=rlabel(el.dataset.rk)});
+  }
+});
+let nmT=null;
+document.addEventListener("input",e=>{
+  const t=e.target;
+  if(!t.classList||!(t.classList.contains("own")||t.classList.contains("own2")))return;
+  const key=t.classList.contains("own")?"own":"own2";
+  store[key]=store[key]||{};store[key][t.dataset.k]=t.value;save();
+  document.querySelectorAll("[data-rk]").forEach(el=>{el.textContent=rlabel(el.dataset.rk)});
+  updateWarn();
+  $("#tab-chuan-bi").innerHTML="";$("#tab-nop-bai").innerHTML="";rolesDirty=true;
+  clearTimeout(nmT);nmT=setTimeout(renderTimeline,300);
+});
+
+/* ---------- start ---------- */
+applyData();
+applyStatic();
+renderTimeline();
+show(location.hash.slice(1));
+</script>
